@@ -1,3 +1,4 @@
+
 with open("WT_UV_bothruns_Muts_allSNVs_sorted.bed") as f:
     data = f.read()
 with open("rad16_UV_bothruns_Muts_allSNVs_sorted.bed") as f16:
@@ -24,17 +25,24 @@ with open("WT_UV_run2_Muts_allDNVs_sorted.bed") as fd2:
     datad2 = fd2.read()
 with open("UV_yeast_Merged_SNP_DIPs_sorted_anz2_tandem_insertions.bed") as fin:
     datain = fin.read()
-with open('WT_DIPs_sorted_anz2_tandem_insertions.bed') as fina:
+with open('WT_DIPs_sorted_tandem_insertions.bed') as fina:
     dataina = fina.read()
-with open('rad16_DIPs_sorted_anz2_tandem_insertions.bed') as finb:
+with open('rad16_DIPs_sorted_tandem_insertions.bed') as finb:
     datainb = finb.read()
+with open('rad26_DIPs_sorted_tandem_insertions.bed') as finc:
+    datainc = finc.read()
 with open("UV_yeast_Merged_SNP_DIPs_sorted_anz2_tandem_deletions.bed") as fdel:
     datadel = fdel.read()
-with open('WT_DIPs_sorted_anz2_tandem_deletions.bed') as fdela:
+with open('WT_DIPs_sorted_tandem_deletions.bed') as fdela:
     datadela = fdela.read()
-with open('rad16_DIPs_sorted_anz2_tandem_deletions.bed') as fdelb:
+with open('rad16_DIPs_sorted_tandem_deletions.bed') as fdelb:
     datadelb = fdelb.read()
-
+with open('rad26_DIPs_sorted_tandem_deletions.bed') as fdelc:
+    datadelc = fdelc.read()
+with open('rad30_UniqueMutations_tandem_deletions.bed') as fr30:
+    datar30 = fr30.read()
+with open('rad30_UniqueMutations_04_08_2020_tandem_insertions.txt') as fi30:
+    datafi30 = fi30.read()
 #extract columns from bed files to make arrays
 # with matching indices   
 def getChromosome(data):       
@@ -58,10 +66,14 @@ chromosomed2 = getChromosome(datad2)
 chromosomein = getChromosome(datain)
 chromosomeina = getChromosome(dataina)
 chromosomeinb = getChromosome(datainb)
+chromosomeinc = getChromosome(datainc)
 chromosomedel = getChromosome(datadel)
 chromosomedela = getChromosome(datadela)
 chromosomedelb = getChromosome(datadelb)
-    
+chromosomedelc = getChromosome(datadelc)
+chromosomer30 = getChromosome(datar30)
+chromosomei30 = getChromosome(datafi30)
+
 def getPosition1(data):
     lines = [s.strip().split() for s in data.splitlines()]   
     position1 = []
@@ -84,9 +96,12 @@ position1_d2 = getPosition1(datad2)
 position1_in = getPosition1(datain)
 position1_ina = getChromosome(dataina)
 position1_inb = getChromosome(datainb)
+position1_inc = getChromosome(datainc)
 position1_del = getPosition1(datadel)
 position1_dela = getPosition1(datadela)
 position1_delb = getPosition1(datadelb)
+position1_delc = getPosition1(datadelc)
+position1_r30 = getPosition1(datar30)
 
 def getPosition2(data):
     lines = [s.strip().split() for s in data.splitlines()]   
@@ -110,9 +125,13 @@ position2_d2 = getPosition2(datad2)
 position2_in = getPosition2(datain)
 position2_ina = getPosition2(dataina)
 position2_inb = getPosition2(datainb)
+position2_inc = getPosition2(datainc)
 position2_del = getPosition2(datadel)
 position2_dela = getPosition2(datadela)
 position2_delb = getPosition2(datadelb)
+position2_delc = getPosition2(datadelc)
+position2_r30 = getPosition2(datar30)
+position2_i30 = getPosition2(datafi30)
 
 def getTrinucleotide(data):
     lines = [s.strip().split() for s in data.splitlines()]   
@@ -133,20 +152,23 @@ trinucleotider2 = getTrinucleotide(datar2)
 trinucleotidein = getTrinucleotide(datain)
 trinucleotideina = getTrinucleotide(dataina)
 trinucleotideinb = getTrinucleotide(datainb)
+trinucleotideinc = getTrinucleotide(datainc)
 trinucleotidedel = getTrinucleotide(datadel)
 trinucleotidedela = getTrinucleotide(datadela)
 trinucleotidedelb = getTrinucleotide(datadelb)
+trinucleotidedelc = getTrinucleotide(datadelc)
+trinucleotidefi30 = getTrinucleotide(datafi30)
 
-tridel = []
-tridela = []
-tridelb = []
 
-for tri in range(0,len(trinucleotidein)):
-    trinucleotidein[tri]= str(trinucleotidein[tri][0]) + str(trinucleotidein[tri][len(trinucleotidein[tri]) - 1])
+#for tri in range(0,len(trinucleotidein)):
+    #trinucleotidein[tri]= str(trinucleotidein[tri][0]) + str(trinucleotidein[tri][len(trinucleotidein[tri]) - 1])
+    #print(trinucleotidein[tri])
 for tria in range(0,len(trinucleotideina)):
     trinucleotideina[tria] = str(trinucleotideina[tria][0]) + str(trinucleotideina[tria][len(trinucleotideina[tria]) - 1])
-for trib in range(0,len(trinucleotidedelb)):
+for trib in range(0,len(trinucleotideinb)):
     trinucleotideinb[trib] = str(trinucleotideinb[trib][0]) + str(trinucleotideinb[trib][len(trinucleotideinb[trib])- 1])
+for tric in range(0,len(trinucleotideinc)):
+    trinucleotideinc[tric] = str(trinucleotideinc[tric][0]) + str(trinucleotideinc[tric][len(trinucleotideinc[tric])- 1])
 
 def getMononucleotide(data):
     lines = [s.strip().split() for s in data.splitlines()]  
@@ -378,9 +400,13 @@ timesd2 = AssignTimes(chromosomed2, position2_d2, start, scores)
 timesin = AssignTimes(chromosomein, position2_in, start, scores)
 timesina = AssignTimes(chromosomeina, position2_ina, start, scores)
 timesinb = AssignTimes(chromosomeinb, position2_inb, start, scores)
+timesinc = AssignTimes(chromosomeinc, position2_inc, start, scores)
 timesdel = AssignTimes(chromosomedel, position2_del, start, scores)
 timesdela = AssignTimes(chromosomedela, position2_dela, start, scores)
 timesdelb = AssignTimes(chromosomedelb, position2_delb, start, scores)
+timesdelc = AssignTimes(chromosomedelc, position2_delc, start, scores)
+timesr30 = AssignTimes(chromosomer30, position2_r30, start, scores)
+timesi30 = AssignTimes(chromosomei30, position2_i30, start, scores)
 
 #Numbers and percentages of mutations in early,middle,
 #and late replication times. Adds to dictionaries and separates
@@ -436,11 +462,16 @@ def CountMutations(filename, times, chromosome, chr_name):
     total = len(early_mut)  + len(middle_mut) + len(late_mut)
     total_chr = len(chr_early)  + len(chr_middle) + len(chr_late)
     percent_early = (len(early_mut)/ total) * 100
-    percent_early_chr = (len(chr_early)/ total_chr) * 100
     percent_middle = (len(middle_mut)/ total) * 100
-    percent_middle_chr = (len(chr_middle)/ total_chr) * 100
     percent_late = (len(late_mut)/ total) * 100
-    percent_late_chr = (len(chr_late)/ total_chr) * 100
+    if total_chr != 0:
+        percent_early_chr = (len(chr_early)/ total_chr) * 100
+        percent_middle_chr = (len(chr_middle)/ total_chr) * 100
+        percent_late_chr = (len(chr_late)/ total_chr) * 100
+    else:
+        percent_early_chr = 'NA'
+        percent_middle_chr = 'NA'
+        percent_late_chr = 'NA'
     f1 = open(filename, 'w+')
     f1.write('Early Mutation Number: '+ str(len(early_mut)) + '  Percentage: ' + str(percent_early) + '%')
     f1.write('\n')
@@ -476,10 +507,6 @@ muts_d2 = CountMutations("WT_d2_mutations", timesd2, chromosomed2, 'chrVI')
 early_mut_d2 = muts_d2[0]
 middle_mut_d2 = muts_d2[1]
 late_mut_d2 = muts_d2[2]
-muts_in = CountMutations("insertion_mutations", timesin, chromosomein, 'chrVI')
-early_mut_in = muts_in[0]
-middle_mut_in = muts_in[1]
-late_mut_in = muts_in[2]
 muts_ina = CountMutations("WT_insertion_mutations", timesina, chromosomeina, 'chrVI')
 early_mut_ina = muts_ina[0]
 middle_mut_ina = muts_ina[1]
@@ -488,10 +515,10 @@ muts_inb = CountMutations("rad16_insertion_mutations", timesinb, chromosomeinb, 
 early_mut_inb = muts_inb[0]
 middle_mut_inb = muts_inb[1]
 late_mut_inb = muts_inb[2]
-muts_del = CountMutations("deletion_mutations", timesdel, chromosomedel, 'chrVI')
-early_mut_del = muts_del[0]
-middle_mut_del = muts_del[1]
-late_mut_del = muts_del[2]
+muts_inc = CountMutations("rad26_insertion_mutations", timesinc, chromosomeinc, 'chrVI')
+early_mut_inc = muts_inc[0]
+middle_mut_inc = muts_inc[1]
+late_mut_inc = muts_inc[2]
 muts_dela = CountMutations("WT_deletion_mutations", timesdela, chromosomedela, 'chrVI')
 early_mut_dela = muts_dela[0]
 middle_mut_dela = muts_dela[1]
@@ -500,6 +527,18 @@ muts_delb = CountMutations("rad16_deletion_mutations", timesdelb, chromosomedelb
 early_mut_delb = muts_delb[0]
 middle_mut_delb = muts_delb[1]
 late_mut_delb = muts_delb[2]
+muts_delc = CountMutations("rad26_deletion_mutations", timesdelc, chromosomedelc, 'chrVI')
+early_mut_delc = muts_delc[0]
+middle_mut_delc = muts_delc[1]
+late_mut_delc = muts_delc[2]
+muts_r30 = CountMutations("rad30_Unique_deletion_mutations", timesr30, chromosomer30, 'chrVI')
+early_mut_r30 = muts_r30[0]
+middle_mut_r30 = muts_r30[1]
+late_mut_r30 = muts_r30[2]
+muts_i30 = CountMutations("rad30_Unique_insertion_mutations", timesi30, chromosomei30, 'chrVI')
+early_mut_i30 = muts_i30[0]
+middle_mut_i30 = muts_i30[1]
+late_mut_i30 = muts_i30[2]
 
 def CountMutations_ch(times, chromosome, name, rep_times):
     early_2 = rep_times[1]
@@ -530,308 +569,6 @@ def CountMutations_ch(times, chromosome, name, rep_times):
 #muts2_26 = CountMutations_ch(times26, chromosome26, 'chrXVI', bins)
 #muts2_B = CountMutations_ch(times_B, chromosomeB, 'chrXVI', rep_times)
 #muts2_B16 = CountMutations_ch(timesB16, chromosomeB16, 'chrXVI', rep_times)
-
-
-def ClassifyMutations(muts, trinucleotide, mononucleotide, file):
-    early_muts = muts[0]
-    middle_muts = muts[1]
-    late_muts = muts[2]
-    
-    earlycount1 = 0
-    middlecount1 = 0
-    latecount1 = 0
-    earlycount2 = 0
-    middlecount2 = 0
-    latecount2 = 0
-    earlycount3 = 0
-    middlecount3 = 0
-    latecount3 = 0
-    earlycount4 = 0
-    middlecount4 = 0
-    latecount4 = 0
-    earlycount5 = 0
-    middlecount5 = 0
-    latecount5 = 0
-    earlycount6 = 0
-    middlecount6 = 0
-    latecount6 = 0
-    earlycount7 = 0
-    middlecount7 = 0
-    latecount7 = 0
-    earlycount8 = 0
-    middlecount8 = 0
-    latecount8 = 0
-    earlycount9 = 0
-    middlecount9 = 0
-    latecount9 = 0
-    earlycount10 = 0 
-    middlecount10 = 0
-    latecount10 = 0
-    earlycount11 = 0
-    middlecount11 = 0
-    latecount11 = 0
-    earlycount12 = 0
-    middlecount12 = 0
-    latecount12 = 0
-    for t in range(0, len(trinucleotide) ):
-        if trinucleotide[t][1] == 'A'and mononucleotide[t] == 'C':
-                if t in early_muts.keys():
-                    earlycount1 = earlycount1 + 1
-                if t in middle_muts.keys():
-                    middlecount1 = middlecount1 + 1
-                if t in late_muts.keys():
-                    latecount1 = latecount1 + 1
-        if trinucleotide[t][1] == 'A'and mononucleotide[t] == 'G':
-            if t in early_muts.keys():
-                    earlycount2 = earlycount2 + 1
-            if t in middle_muts.keys():
-                middlecount2 = middlecount2 + 1
-            if t in late_muts.keys():
-                latecount2 = latecount2 + 1
-        if trinucleotide[t][1] == 'A'and mononucleotide[t] == 'T':
-            if t in early_muts.keys():
-                    earlycount3 = earlycount3 + 1
-            if t in middle_muts.keys():
-                middlecount3 = middlecount3 + 1
-            if t in late_muts.keys():
-                latecount3 = latecount3 + 1
-        if trinucleotide[t][1] == 'C'and mononucleotide[t] == 'A':
-            if t in early_muts.keys():
-                    earlycount4 = earlycount4 + 1
-            if t in middle_muts.keys():
-                middlecount4 = middlecount4 + 1
-            if t in late_muts.keys():
-                latecount4 = latecount4 + 1
-        if trinucleotide[t][1] == 'C'and mononucleotide[t] == 'G':
-            if t in early_muts.keys():
-                    earlycount5 = earlycount5 + 1
-            if t in middle_muts.keys():
-                middlecount5 = middlecount5 + 1
-            if t in late_muts.keys():
-                latecount5 = latecount5 + 1
-        if trinucleotide[t][1] == 'C'and mononucleotide[t] == 'T':
-            if t in early_muts.keys():
-                earlycount6 = earlycount6 + 1
-            if t in middle_muts.keys():
-                middlecount6 = middlecount6 + 1
-            if t in late_muts.keys():
-                latecount6 = latecount6 + 1
-        if trinucleotide[t][1] == 'G'and mononucleotide[t] == 'A':
-            if t in early_muts.keys():
-                earlycount7 = earlycount7 + 1
-            if t in middle_muts.keys():
-                middlecount7 = middlecount7 + 1
-            if t in late_muts.keys():
-                latecount7 = latecount7 + 1
-        if trinucleotide[t][1] == 'G'and mononucleotide[t] == 'C':
-            if t in early_muts.keys():
-                earlycount8 = earlycount8 + 1
-            if t in middle_muts.keys():
-                middlecount8 = middlecount8 + 1
-            if t in late_muts.keys():
-                latecount8 = latecount8 + 1
-        if trinucleotide[t][1] == 'G'and mononucleotide[t] == 'T':
-            if t in early_muts.keys():
-                earlycount9 = earlycount9 + 1
-            if t in middle_muts.keys():
-                middlecount9 = middlecount9 + 1
-            if t in late_muts.keys():
-                latecount9 = latecount9 + 1
-        if trinucleotide[t][1] == 'T'and mononucleotide[t] == 'A':
-            if t in early_muts.keys():
-                earlycount10 = earlycount10 + 1
-            if t in middle_muts.keys():
-                middlecount10 = middlecount10 + 1
-            if t in late_muts.keys():
-                latecount10 = latecount10 + 1
-        if trinucleotide[t][1] == 'T'and mononucleotide[t] == 'C':
-            if t in early_muts.keys():
-                earlycount11 = earlycount11 + 1
-            if t in middle_muts.keys():
-                middlecount11 = middlecount11 + 1
-            if t in late_muts.keys():
-                latecount11 = latecount11 + 1
-        if trinucleotide[t][1] == 'T'and mononucleotide[t] == 'G':
-            if t in early_muts.keys():
-                earlycount12 = earlycount12 + 1
-            if t in middle_muts.keys():
-                middlecount12 = middlecount12 + 1
-            if t in late_muts.keys():
-                latecount12 = latecount12 + 1
-    f = open(file, 'w+')
-    f.write('A>C')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount1))
-    if earlycount1 + middlecount1 + latecount1 > 0:   
-            f.write(' Percentage: ' + str(earlycount1/(earlycount1 + middlecount1 + latecount1)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount1))
-    if earlycount1 + middlecount1 + latecount1 > 0:
-        f.write(' Percentage: ' + str(middlecount1/(earlycount1 + middlecount1 + latecount1)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount1)) 
-    if earlycount1 + middlecount1 + latecount1 > 0:
-        f.write(' Percentage: ' + str(latecount1/(earlycount1 + middlecount1 + latecount1)))
-    f.write('\n')
-    f.write('A>G')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount2))
-    if earlycount2 + middlecount2 + latecount2 >0:
-        f.write(' Percentage: ' + str(earlycount2/(earlycount2 + middlecount2 + latecount2)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount2)) 
-    if earlycount2 + middlecount2 + latecount2 >0:
-        f.write(' Percentage: ' + str(middlecount2/(earlycount2 + middlecount2 + latecount2)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount2)) 
-    if earlycount2 + middlecount2 + latecount2 >0:
-        f.write(' Percentage: ' + str(latecount2/(earlycount2 + middlecount2 + latecount2)))
-    f.write('\n')
-    f.write('A>T')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount3))
-    if earlycount3 + middlecount3 + latecount3 > 0: 
-        f.write(' Percentage: ' + str(earlycount3/(earlycount3 + middlecount3 + latecount3)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount3)) 
-    if earlycount3 + middlecount3 + latecount3 > 0:
-        f.write(' Percentage: ' + str(middlecount3/(earlycount3 + middlecount3 + latecount3)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount3)) 
-    if earlycount3 + middlecount3 + latecount3 > 0:
-        f.write(' Percentage: ' + str(latecount3/(earlycount3 + middlecount3 + latecount3)))
-    f.write('\n')
-    f.write('C>A')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount4)) 
-    if earlycount4 + middlecount4 + latecount4 > 0:
-        f.write(' Percentage: ' + str(earlycount4/(earlycount4 + middlecount4 + latecount4)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount4)) 
-    if earlycount4 + middlecount4 + latecount4 > 0:
-        f.write(' Percentage: ' + str(middlecount4/(earlycount4 + middlecount4 + latecount4)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount4)) 
-    if earlycount4 + middlecount4 + latecount4 > 0:
-        f.write(' Percentage: ' + str(latecount4/(earlycount4 + middlecount4 + latecount4)))
-    f.write('\n')
-    f.write('C>G')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount5)) 
-    if earlycount5 + middlecount5 + latecount5 > 0:
-        f.write(' Percentage: ' + str(earlycount5/(earlycount5 + middlecount5 + latecount5)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount5)) 
-    if earlycount5 + middlecount5 + latecount5 > 0:
-        f.write(' Percentage: ' + str(middlecount5/(earlycount5 + middlecount5 + latecount5)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount5)) 
-    if earlycount5 + middlecount5 + latecount5 > 0:
-        f.write(' Percentage: ' + str(latecount5/(earlycount5 + middlecount5 + latecount5)))
-    f.write('\n')
-    f.write('C>T')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount6)) 
-    if earlycount6 + middlecount6 + latecount6 > 0:
-        f.write(' Percentage: ' + str(earlycount6/(earlycount6 + middlecount6 + latecount6)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount6)) 
-    if earlycount6 + middlecount6 + latecount6 > 0:
-        f.write(' Percentage: ' + str(middlecount6/(earlycount6 + middlecount6 + latecount6)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount6)) 
-    if earlycount6 + middlecount6 + latecount6 > 0:
-        f.write(' Percentage: ' + str(latecount6/(earlycount6 + middlecount6 + latecount6)))
-    f.write('\n')
-    f.write('G>A')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount7)) 
-    if earlycount7 + middlecount7 + latecount7 > 0:
-        f.write(' Percentage: ' + str(earlycount7/(earlycount7 + middlecount7 + latecount7)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount7)) 
-    if earlycount7 + middlecount7 + latecount7 > 0:
-        f.write(' Percentage: ' + str(middlecount7/(earlycount7 + middlecount7 + latecount7)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount7)) 
-    if earlycount7 + middlecount7 + latecount7 > 0:
-        f.write(' Percentage: ' + str(latecount7/(earlycount7 + middlecount7 + latecount7)))
-    f.write('\n')
-    f.write('G>C')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount8)) 
-    if earlycount8 + middlecount8 + latecount8 > 0:
-        f.write(' Percentage: ' + str(earlycount8/(earlycount8 + middlecount8 + latecount8)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount8)) 
-    if earlycount8 + middlecount8 + latecount8 > 0:
-        f.write(' Percentage: ' + str(middlecount8/(earlycount8 + middlecount8 + latecount8)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount8)) 
-    if earlycount8 + middlecount8 + latecount8 > 0:
-        f.write(' Percentage: ' + str(latecount8/(earlycount8 + middlecount8 + latecount8)))
-    f.write('\n')
-    f.write('G>T')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount9)) 
-    if earlycount9 + middlecount9 + latecount9 > 0:
-        f.write(' Percentage: ' + str(earlycount9/(earlycount9 + middlecount9 + latecount9)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount9)) 
-    if earlycount9 + middlecount9 + latecount9 > 0:
-        f.write(' Percentage: ' + str(middlecount9/(earlycount9 + middlecount9 + latecount9)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount9)) 
-    if earlycount9 + middlecount9 + latecount9 > 0:
-        f.write(' Percentage: ' + str(latecount9/(earlycount9 + middlecount9 + latecount9)))
-    f.write('\n')
-    f.write('T>A')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount10)) 
-    if earlycount10 + middlecount10 + latecount10 > 0:
-        f.write(' Percentage: ' + str(earlycount10/(earlycount10 + middlecount10 + latecount10)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount10)) 
-    if earlycount10 + middlecount10 + latecount10 > 0:
-        f.write(' Percentage: ' + str(middlecount10/(earlycount10 + middlecount10 + latecount10)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount10)) 
-    if earlycount10 + middlecount10 + latecount10 > 0:
-        f.write(' Percentage: ' + str(latecount10/(earlycount10 + middlecount10 + latecount10)))
-    f.write('\n')
-    f.write('T>C')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount11)) 
-    if earlycount11 + middlecount11 + latecount11 > 0:
-        f.write(' Percentage: ' + str(earlycount11/(earlycount11 + middlecount11 + latecount11)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount11)) 
-    if earlycount11 + middlecount11 + latecount11 > 0:
-        f.write(' Percentage: ' + str(middlecount11/(earlycount11 + middlecount11 + latecount11)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount11)) 
-    if earlycount11 + middlecount11 + latecount11 > 0:
-        f.write(' Percentage: ' + str(latecount11/(earlycount11 + middlecount11 + latecount11)))
-    f.write('\n')
-    f.write('T>G')
-    f.write('\n')
-    f.write('Early: '+ str(earlycount12)) 
-    if earlycount12 + middlecount12 + latecount12 > 0:
-        f.write(' Percentage: ' + str(earlycount12/(earlycount12 + middlecount12 + latecount12)))
-    f.write('\n')
-    f.write('Middle: '+ str(middlecount12)) 
-    if earlycount12 + middlecount12 + latecount12 > 0:
-        f.write(' Percentage: ' + str(middlecount12/(earlycount12 + middlecount12 + latecount12)))
-    f.write('\n')
-    f.write('Late: '+ str(latecount12)) 
-    if earlycount12 + middlecount12 + latecount12 > 0:
-        f.write(' Percentage: ' + str(latecount12/(earlycount12 + middlecount12 + latecount12)))
-    f.write('\n')
-    
-
-
-ClassifyMutations(muts, trinucleotide, mononucleotide, 'base_changes')
-ClassifyMutations(muts_16, trinucleotide16, mononucleotide16, 'base_changes_rad16')
 
 #Calculates average times for each of nine bins for use in linear model
 def AverageTimes(muts, file):
@@ -972,18 +709,26 @@ def AddTimeColumn(filename, file1, file2, file3, data, times, early_mut, middle_
 #AddTimeColumn("WT_UV_run2_allSNVs_sorted.bed", "early_mutations_r2.bed", "middle_mutations_r2.bed", "late_mutations_r2.bed",datar2, timesr2, early_mut_r2, middle_mut_r2, late_mut_r2 )
 #AddTimeColumn("WT_UV_run1_allDNVs_sorted.bed", "early_mutations_d1.bed", "middle_mutations_d1.bed", "late_mutations_d1.bed",datad1, timesd1, early_mut_d1, middle_mut_d1, late_mut_d1 )
 #AddTimeColumn("WT_UV_run2_allDNVs_sorted.bed", "early_mutations_d2.bed", "middle_mutations_d2.bed", "late_mutations_d2.bed",datad2, timesd2, early_mut_d2, middle_mut_d2, late_mut_d2 )
-AddTimeColumn("UV_insertions_sorted.bed", "early_mutations_insertions.bed", "middle_mutations_insertions.bed", "late_mutations_insertions.bed",datain, timesin, early_mut_in, middle_mut_in, late_mut_in )
+#AddTimeColumn("UV_insertions_sorted.bed", "early_mutations_insertions.bed", "middle_mutations_insertions.bed", "late_mutations_insertions.bed",datain, timesin, early_mut_in, middle_mut_in, late_mut_in )
 AddTimeColumn("WT_insertions_sorted.bed", "WT_early_mutations_insertions.bed", "WT_middle_mutations_insertions.bed", "WT_late_mutations_insertions.bed",dataina, timesina, early_mut_ina, middle_mut_ina, late_mut_ina )
 AddTimeColumn("rad16_insertions_sorted.bed", "rad16_early_mutations_insertions.bed", "rad16_middle_mutations_insertions.bed", "rad_16_late_mutations_insertions.bed",datainb, timesinb, early_mut_inb, middle_mut_inb, late_mut_inb )
+AddTimeColumn("rad26_insertions_sorted.bed", "rad26_early_mutations_insertions.bed", "rad26_middle_mutations_insertions.bed", "rad_26_late_mutations_insertions.bed",datainc, timesinc, early_mut_inc, middle_mut_inc, late_mut_inc )
 #AddTimeColumn("UV__deletions_sorted.bed", "early_mutations_deletions.bed", "middle_mutations_deletions.bed", "late_mutations_deletions.bed",datadel, timesdel, early_mut_del, middle_mut_del, late_mut_del )
-#AddTimeColumn("WT__deletions_sorted.bed", "WT_early_mutations_deletions.bed", "WT_middle_mutations_deletions.bed", "WT_late_mutations_deletions.bed",datadela, timesdela, early_mut_dela, middle_mut_dela, late_mut_dela )
-#AddTimeColumn("rad16__deletions_sorted.bed", "rad16_early_mutations_deletions.bed", "rad16_middle_mutations_deletions.bed", "rad16_late_mutations_deletions.bed",datadelb, timesdelb, early_mut_delb, middle_mut_delb, late_mut_delb )
+AddTimeColumn("WT__deletions_sorted.bed", "WT_early_mutations_deletions.bed", "WT_middle_mutations_deletions.bed", "WT_late_mutations_deletions.bed",datadela, timesdela, early_mut_dela, middle_mut_dela, late_mut_dela )
+AddTimeColumn("rad16__deletions_sorted.bed", "rad16_early_mutations_deletions.bed", "rad16_middle_mutations_deletions.bed", "rad16_late_mutations_deletions.bed",datadelb, timesdelb, early_mut_delb, middle_mut_delb, late_mut_delb )
+AddTimeColumn("rad26__deletions_sorted.bed", "rad26_early_mutations_deletions.bed", "rad26_middle_mutations_deletions.bed", "rad26_late_mutations_deletions.bed",datadelc, timesdelc, early_mut_delc, middle_mut_delc, late_mut_delc )
+AddTimeColumn("rad30_Unique_deletions_sorted.bed", "rad30_Unique_early_mutations_deletions.bed", "rad30_Unique_middle_mutations_deletions.bed", "rad30_Unique_late_mutations_deletions.bed",datar30, timesr30, early_mut_r30, middle_mut_r30, late_mut_r30 )
+AddTimeColumn("rad30_Unique_insertions_sorted.bed", "rad30_Unique_early_mutations_insertions.bed", "rad30_Unique_middle_mutations_insertions.bed", "rad30_Unique_late_mutations_insertions.bed",datafi30, timesi30, early_mut_i30, middle_mut_i30, late_mut_i30 )
 
 #Calculates number of mutations for each codon
 def MutationRate(file1, trinucleotides, muts, file2):
     mutationRates = {}
     base_percentages = {}
+    mutationRates_early = {}
+    mutationRates_middle = {}
     mutationRates_late = {}
+    base_percentages_early = {}
+    base_percentages_middle = {}
     base_percentages_late = {}
     fm = open(file1)
     datam = fm.read()
@@ -993,30 +738,49 @@ def MutationRate(file1, trinucleotides, muts, file2):
     for d in range(0, len(line)):
         mutationRates[line[d]] = 0
         base_percentages[line[d]] = 0
+        mutationRates_early[line[d]] = 0
+        mutationRates_middle[line[d]] = 0
         mutationRates_late[line[d]] = 0
+        base_percentages_early[line[d]] = 0
+        base_percentages_middle[line[d]] = 0
         base_percentages_late[line[d]] = 0
     for key in mutationRates.keys():
         for t in range (0, len(trinucleotides)):
             if trinucleotides[t] == key:
                 mutationRates[key] = mutationRates[key] + 1
                 base_percentages[key] = (mutationRates[key] / len(trinucleotides))
+            if trinucleotides[t] == key and t in muts[0].keys():
+                mutationRates_early[key] = mutationRates_early[key] + 1
+                base_percentages_early[key] = (mutationRates_early[key] / len(muts[0].keys()))
+            if trinucleotides[t] == key and t in muts[1].keys():
+                mutationRates_middle[key] = mutationRates_middle[key] + 1
+                base_percentages_middle[key] = (mutationRates_middle[key] / len(muts[1].keys()))
             if trinucleotides[t] == key and t in muts[2].keys():
                 mutationRates_late[key] = mutationRates_late[key] + 1
-                base_percentages_late[key] = (mutationRates_late[key] / len(trinucleotides))
+                base_percentages_late[key] = (mutationRates_late[key] / len(muts[2].keys()))
              
     for key in mutationRates.keys():
         fm2.write(key + ": Number = " + str(mutationRates[key])+ ' Percentage =' + str(base_percentages[key] * 100) + "%")
         fm2.write('\n')
+    fm2.write('Early Replication: ')
+    fm2.write('\n')
+    for key in mutationRates_early.keys():
+        fm2.write(key + ": Number = " + str(mutationRates_early[key])+ ' Percentage =' + str(base_percentages_early[key] * 100) + "%")
+        fm2.write('\n')
+    fm2.write('Middle Replication: ')
+    fm2.write('\n')
+    for key in mutationRates_middle.keys():
+        fm2.write(key + ": Number = " + str(mutationRates_middle[key])+ ' Percentage =' + str(base_percentages_middle[key] * 100) + "%")
+        fm2.write('\n')
     fm2.write('Late Replication: ')
     fm2.write('\n')
-
     for key in mutationRates_late.keys():
         fm2.write(key + ": Number = " + str(mutationRates_late[key])+ ' Percentage =' + str(base_percentages_late[key] * 100) + "%")
         fm2.write('\n')
     return(mutationRates)
 
-#mutationRates = MutationRate('mutationrates.txt', trinucleotide, muts, 'mutationrate_results')
-#mutationRates16 = MutationRate('mutationrates.txt', trinucleotide16, muts_16, 'mutationrate16_results')
+mutationRates = MutationRate('mutationrates.txt', trinucleotide, muts, 'mutationrate_results')
+mutationRates16 = MutationRate('mutationrates.txt', trinucleotide16, muts_16, 'mutationrate16_results')
 #mutationRatesr1 = MutationRate('mutationrates.txt', trinucleotider1, muts_r1, 'mutationrate_r1_results')
 #mutationRatesr2 = MutationRate('mutationrates.txt', trinucleotider2, muts_r2, 'mutationrate_r2_results')
 #mutationRates30 = MutationRate('mutationrates.txt', trinucleotide30, 'mutationrate30_results')
@@ -1025,12 +789,14 @@ def MutationRate(file1, trinucleotides, muts, file2):
 #mutationRates26 = MutationRate('mutationrates.txt', trinucleotide26,muts_26, 'mutationrate26_results') 
 #mutationRatesUVB = MutationRate('mutationrates.txt', trinucleotideB, 'mutationrateUVB_results')
 #mutationRatesB16 = MutationRate('mutationrates.txt', trinucleotideB16, 'mutationrateUVB16_results')
-mutationRatesin = MutationRate('di_mutationrates.txt', trinucleotidein,muts_in, 'mutationrateinsertion_results') 
+#mutationRatesin = MutationRate('di_mutationrates.txt', trinucleotidein,muts_in, 'mutationrateinsertion_results') 
 mutationRatesina = MutationRate('di_mutationrates.txt', trinucleotideina ,muts_ina, 'WT_mutationrateinsertion_results') 
-mutationRatesinb = MutationRate('di_mutationrates.txt', trinucleotideinb ,muts_inb, 'rad16_mutationrateinsertion_results') 
+mutationRatesinb = MutationRate('di_mutationrates.txt', trinucleotideinb ,muts_inb, 'rad16_mutationrateinsertion_results')
+mutationRatesinc = MutationRate('di_mutationrates.txt', trinucleotideinc ,muts_inc, 'rad26_mutationrateinsertion_results')  
 #mutationRatesdel = MutationRate('mutationrates.txt', trinucleotidedel, muts_del, 'mutationratedeletion_results') 
-#mutationRatesdela = MutationRate('mutationrates.txt', trinucleotidedela, muts_dela, 'WT_mutationratedeletion_results') 
-#mutationRatesdelb = MutationRate('mutationrates.txt', trinucleotidedelb, muts_delb, 'rad16_mutationratedeletion_results') 
+mutationRatesdela = MutationRate('mutationrates.txt', trinucleotidedela, muts_dela, 'WT_mutationratedeletion_results') 
+mutationRatesdelb = MutationRate('mutationrates.txt', trinucleotidedelb, muts_delb, 'rad16_mutationratedeletion_results') 
+mutationRatesdelc = MutationRate('mutationrates.txt', trinucleotidedelc, muts_delc, 'rad26_mutationratedeletion_results') 
 
 def MutationRate_chr(file1, trinucleotides, chr_name , file2):
     mutationRates = {}
@@ -1306,7 +1072,7 @@ dict12 = TrinucleotideContext('chr12.txt', 'chrXII', start, scores, early_2, mid
 dict13 = TrinucleotideContext('chr13.txt', 'chrXIII', start, scores, early_2, middle_2, dict12, 3)
 dict14 = TrinucleotideContext('chr14.txt', 'chrXIV', start, scores, early_2, middle_2, dict13, 3)
 dict15 = TrinucleotideContext('chr15.txt', 'chrXV', start, scores, early_2, middle_2, dict14, 3)
-#counts = TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, dict15, 3)
+counts = TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, dict15, 3)
 
 early_Dinuc = {}
 middle_Dinuc = {}
@@ -1329,6 +1095,8 @@ dict13b = TrinucleotideContext('chr13.txt', 'chrXIII', start, scores, early_2, m
 dict14b = TrinucleotideContext('chr14.txt', 'chrXIV', start, scores, early_2, middle_2, dict13b, 2)
 dict15b = TrinucleotideContext('chr15.txt', 'chrXV', start, scores, early_2, middle_2, dict14b, 2)
 counts2 = TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, dict15b, 2)
+
+
 
 early_Trinuc = {}
 middle_Trinuc = {}
@@ -1411,12 +1179,14 @@ def FindExpected(mutationRates, count, file):
 #expected_percentages16 = FindExpected(mutationRates16, chr16_counts)
 #expected_percentagesUVB = FindExpected(mutationRatesUVB, chr16_counts)
 #expected_percentagesB16 = FindExpected(mutationRatesB16, chr16_counts)
-FindExpected(mutationRatesin, counts2, 'Rates_insertions.txt')
-FindExpected(mutationRatesina, counts2, 'WT_Rates_insertions.txt')
-FindExpected(mutationRatesinb, counts2, 'rad16_Rates_insertions.txt')
+#FindExpected(mutationRatesin, counts2, 'Rates_insertions.txt')
+#FindExpected(mutationRatesina, counts2, 'WT_Rates_insertions.txt')
+#FindExpected(mutationRatesinb, counts2, 'rad16_Rates_insertions.txt')
+#FindExpected(mutationRatesinc, counts2, 'rad26_Rates_insertions.txt')
 #FindExpected(mutationRatesdel, counts, 'Rates_deletions.txt')
-#FindExpected(mutationRatesdela, counts, 'WT_Rates_deletions.txt')
-#FindExpected(mutationRatesdelb, counts, 'rad16_Rates_deletions.txt')
+FindExpected(mutationRatesdela, counts, 'WT_Rates_deletions.txt')
+FindExpected(mutationRatesdelb, counts, 'rad16_Rates_deletions.txt')
+FindExpected(mutationRatesdelc, counts, 'rad26_Rates_deletions.txt')
 
 def MutationNumbers(file,file2,chromosome, expected_percentages, chr_name, muts):
     f1 = open(file)
@@ -1454,7 +1224,7 @@ def MutationNumbers(file,file2,chromosome, expected_percentages, chr_name, muts)
     f2.close()
     
     
-#MutationNumbers('chr16.txt', 'chr16_value.txt', chromosome, expected_percentages,'chrXVI', muts2)
+#MutationNumbers('chr16.txt', 'chr1_value.txt', chromosome, expected_percentages,'chrXVI', muts2)
 #MutationNumbers('chr16.txt', 'chr16_value_rad16.txt', chromosome16, expected_percentages16,'chrXVI', muts2_16)
 #MutationNumbers('chr16.txt', 'chr16_value_UVB', chromosomeB, expected_percentagesUVB,'chrXVI', muts2_B)
 #MutationNumbers('chr16.txt', 'chr16_value_UVBrad16', chromosomeB16, expected_percentagesB16,'chrXVI', muts2_B16)
