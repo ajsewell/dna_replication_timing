@@ -35,7 +35,29 @@ with open("WT_UV_run1_Muts_allSNVs_sorted.bed") as fr1:
     datar1 = fr1.read()
 with open("WT_UV_run2_Muts_allSNVs_sorted.bed") as fr2:
     datar2 = fr2.read()
-
+with open("clusters16.bed") as c:
+    datac = c.read()
+with open("clusters16_UVB.bed") as c1:
+    datac1 = c1.read()
+#with open("GSM2109562_0hr_UV2_A1_dipy_bkgd.bed") as a1:
+    #dataa1 = a1.read()
+#with open("GSM2109560_UV_0hr_A2_dipy_bkgd.bed") as a2:
+    #dataa2 = a2.read()
+#with open("GSM2109566_UV90J_A3_dipy_bkgd.bed") as a3:
+    #dataa3 = a3.read()
+#with open("GSM2109565_UV60J_A2_dipy_bkgd.bed") as j60:
+    #dataj60 = j60.read()
+#with open("2hr_UV2_WT_A3_1bp_dipy_bk.bed") as h2:
+    #datah2 = h2.read()
+#with open("GSM3763516_rad16_UV0hr_rep2_A4_combined_1bp_dipy_bk.bed") as a4:
+    #dataa4 = a4.read()
+#with open("GSM3763517_rad16_UV2hr_rep2_A5_combined_1bp_dipy_bk.bed") as a5:
+    #dataa5 = a5.read()
+#with open("GSM4339207_rad26-0hr-rep2-A1_dipy_bk.bed") as a_r26:
+    #dataa_r26 = a_r26.read()
+#with open("GSM4339208_rad26-2hr-rep2-A2_dipy_bk.bed") as a3_r26:
+    #dataa3_r26 = a3_r26.read()
+    
 #extract columns from bed files to make arrays
 # with matching indices   
 def getChromosome(data):       
@@ -63,6 +85,17 @@ chromosomeB26 = getChromosome(dataB26)
 chromosomeB30 = getChromosome(dataB30)
 chromosomer1 = getChromosome(datar1)
 chromosomer2 = getChromosome(datar2)
+chromosomec = getChromosome(datac)
+chromosomec1 = getChromosome(datac1)
+#chromosomea1 = getChromosome(dataa1)
+#chromosomea2 = getChromosome(dataa2)
+#chromosomea3 = getChromosome(dataa3)
+#chromosomej60 = getChromosome(dataj60)
+#chromosomeh2 = getChromosome(datah2)
+#chromosomea4 = getChromosome(dataa4)
+#chromosomea5 = getChromosome(dataa5)
+#chromosomea_r26 = getChromosome(dataa_r26)
+#chromosomea3_r26 = getChromosome(dataa3_r26)
 
 def getPosition1(data):
     lines = [s.strip().split() for s in data.splitlines()]   
@@ -83,6 +116,17 @@ position1_B26 = getPosition1(dataB26)
 position1_B30 = getPosition1(dataB30)
 position1_r1 = getPosition1(datar1)
 position1_r2 = getPosition1(datar2)
+position1c = getPosition1(datac)
+position1c1 = getPosition1(datac1)
+#position1_a1 = getPosition1(dataa1)
+#position1_a2 = getPosition1(dataa2)
+#position1_a3 = getPosition1(dataa3)
+#position1_j60 = getPosition1(dataj60)
+#position1_h2 = getPosition1(datah2)
+#position1_a4 = getPosition1(dataa4)
+#position1_a5 = getPosition1(dataa5)
+#position1_ar26 = getPosition1(dataa_r26)
+#position1_a3r26 = getPosition1(dataa3_r26)
 
 
 def getPosition2(data):
@@ -104,6 +148,17 @@ position2_B26 = getPosition2(dataB26)
 position2_B30 = getPosition2(dataB30)
 position2_r1 = getPosition2(datar1)
 position2_r2 = getPosition2(datar2)
+position2c = getPosition2(datac)
+position2c1 = getPosition2(datac1)
+#position2_a1 = getPosition2(dataa1)
+#position2_a2 = getPosition2(dataa2)
+#position2_a3 = getPosition2(dataa3)
+#position2_j60 = getPosition2(dataj60)
+#position2_h2 = getPosition2(datah2)
+#position2_a4 = getPosition2(dataa4)
+#position2_a5 = getPosition2(dataa5)
+#position2_ar26 = getPosition2(dataa_r26)
+#position2_a3r26 = getPosition2(dataa3_r26)
 
 
 def getTrinucleotide(data):
@@ -124,6 +179,26 @@ trinucleotideB26 = getTrinucleotide(dataB26)
 trinucleotideB30 = getTrinucleotide(dataB30)
 trinucleotider1 = getTrinucleotide(datar1)
 trinucleotider2 = getTrinucleotide(datar2)
+trinucleotidec = getTrinucleotide(datac)
+trinucleotidec1 = getTrinucleotide(datac1)
+
+
+def getCounts(data):
+    lines = [s.strip().split() for s in data.splitlines()]   
+    damage_counts = []
+    for m in range (0, len(lines)):
+        damage_counts.append(lines[m][3])
+    return damage_counts
+#countsa1 = getCounts(dataa1)
+#countsa2 = getCounts(dataa2)
+#countsa3 = getCounts(dataa3)
+#countsj60 = getCounts(dataj60)
+#countsh2 = getCounts(datah2)
+#countsa4 = getCounts(dataa4)
+#countsa5 = getCounts(dataa5)
+#countsa_r26 = getCounts(dataa_r26)
+#countsa3_r26 = getCounts(dataa3_r26)
+
 
 with open("Raghuraman_replication_timing_saccer3.bed") as t:
     data2 = t.read()
@@ -347,6 +422,18 @@ timesB26 = AssignTimes(chromosomeB26, position2_B26, start, scores)
 timesB30 = AssignTimes(chromosomeB30, position2_B30, start, scores)
 timesr1 = AssignTimes(chromosomer1, position2_r1, start, scores)
 timesr2 = AssignTimes(chromosomer2, position2_r2, start, scores)
+timesc = AssignTimes(chromosomec, position2c, start, scores)
+timesc1 = AssignTimes(chromosomec1, position2c1, start, scores)
+#timesa1 = AssignTimes(chromosomea1, position2_a1, start, scores)
+#timesa2 = AssignTimes(chromosomea2, position2_a2, start, scores)
+#timesa3 = AssignTimes(chromosomea3, position2_a3, start, scores)
+#timesj60 = AssignTimes(chromosomej60, position2_j60, start, scores)
+#timesh2 = AssignTimes(chromosomeh2, position2_h2, start, scores)
+#timesa4 = AssignTimes(chromosomea4, position2_a4, start, scores)
+#timesa5 = AssignTimes(chromosomea5, position2_a5, start, scores)
+#timesa_r26 = AssignTimes(chromosomea_r26, position2_ar26, start, scores)
+#timesa3_r26 = AssignTimes(chromosomea3_r26, position2_a3r26, start, scores)
+
 
 #Numbers and percentages of mutations in early,middle,
 #and late replication times. Adds to dictionaries and separates
@@ -454,7 +541,7 @@ muts_Og = CountMutations("ogg1_mutations", times_Og, chromosomeOg, 'chrI')
 early_mut_Og = muts_Og[0]
 middle_mut_Og = muts_Og[1]
 late_mut_Og = muts_Og[2]
-muts_26= CountMutations("rad26_mutations", times26, chromosome26, 'chrI')
+muts_26= CountMutations("rad26_mutations", times26, chromosome26, 'chrXVI')
 early_mut_26 = muts_26[0]
 middle_mut_26 = muts_26[1]
 late_mut_26 = muts_26[2]
@@ -466,7 +553,7 @@ muts_B16 = CountMutations("UVB_rad16_mutations", timesB16, chromosomeB16, 'chrXV
 early_mut_B16 = muts_B16[0]
 middle_mut_B16 = muts_B16[1]
 late_mut_B16 = muts_B16[2]
-muts_B26 = CountMutations("UVB_rad26_mutations", timesB26, chromosomeB26, 'chrI')
+muts_B26 = CountMutations("UVB_rad26_mutations", timesB26, chromosomeB26, 'chrXIV')
 early_mut_B26 = muts_B26[0]
 middle_mut_B26 = muts_B26[1]
 late_mut_B26 = muts_B26[2]
@@ -482,6 +569,50 @@ muts_r2 = CountMutations("WT_r2_mutations", timesr2, chromosomer2, 'chrVI')
 early_mut_r2 = muts_r2[0]
 middle_mut_r2 = muts_r2[1]
 late_mut_r2 = muts_r2[2]
+mutsc = CountMutations("rad16_complex_mutations", timesc, chromosomec, 'chrVI')
+early_mutc = mutsc[0]
+middle_mutc = mutsc[1]
+late_mutc = mutsc[2]
+mutsc1 = CountMutations("rad16_complex_UVB_mutations", timesc1, chromosomec1, 'chrVI')
+early_mutc1 = mutsc1[0]
+middle_mutc1 = mutsc1[1]
+late_mutc1 = mutsc1[2]
+#muts_a1 = CountMutations("WT_a1_mutations", timesa1, chromosomea1, 'chrVI')
+#early_mut_a1 = muts_a1[0]
+#middle_mut_a1 = muts_a1[1]
+#late_mut_a1 = muts_a1[2]
+#muts_a2 = CountMutations("WT_a2_mutations", timesa2, chromosomea2, 'chrVI')
+#early_mut_a2 = muts_a2[0]
+#middle_mut_a2 = muts_a2[1]
+#late_mut_a2 = muts_a2[2]
+#muts_a3 = CountMutations("WT_a3_mutations", timesa3, chromosomea3, 'chrVI')
+#early_mut_a3 = muts_a3[0]
+#middle_mut_a3 = muts_a3[1]
+#late_mut_a3 = muts_a3[2]
+#muts_j60 = CountMutations("WT_60J_mutations", timesj60, chromosomej60, 'chrVI')
+#early_mut_j60 = muts_j60[0]
+#middle_mut_j60 = muts_j60[1]
+#late_mut_j60 = muts_j60[2]
+#muts_h2 = CountMutations("WT_h2_mutations", timesh2, chromosomeh2, 'chrVI')
+#early_mut_h2 = muts_h2[0]
+#middle_mut_h2 = muts_h2[1]
+#late_mut_h2 = muts_h2[2]
+#muts_a4 = CountMutations("rad16_a4_mutations", timesa4, chromosomea4, 'chrVI')
+#early_mut_a4 = muts_a4[0]
+#middle_mut_a4 = muts_a4[1]
+#late_mut_a4 = muts_a4[2]
+#muts_a5 = CountMutations("rad16_a5_rep2_mutations", timesa5, chromosomea5, 'chrVI')
+#early_mut_a5 = muts_a5[0]
+#middle_mut_a5 = muts_a5[1]
+#late_mut_a5 = muts_a5[2]
+#muts_ar26 = CountMutations("rad26_0hr_mutations", timesa_r26, chromosomea_r26, 'chrVI')
+#early_mut_ar26 = muts_ar26[0]
+#middle_mut_ar26 = muts_ar26[1]
+#late_mut_ar26 = muts_ar26[2]
+#muts_a3r26 = CountMutations("rad26_2hr_mutations", timesa3_r26, chromosomea3_r26, 'chrVI')
+#early_mut_a3r26 = muts_a3r26[0]
+#middle_mut_a3r26 = muts_a3r26[1]
+#late_mut_a3r26 = muts_a3r26[2]
 
 #Calculates average times for each of nine bins for use in linear model
 def AverageTimes(muts, file):
@@ -577,6 +708,8 @@ AverageTimes(muts_B26, 'average_times_rad26_UVB.txt')
 AverageTimes(muts_B30, 'average_times_rad30_UVB.txt')
 AverageTimes(muts_A, 'average_times_UVA.txt')
 AverageTimes(muts_Og, 'average_times_ogg1.txt')
+AverageTimes(mutsc, 'average_times_complex_rad16')
+AverageTimes(mutsc1, 'average_times_complex_UVB_rad16')
 
 #Uses times array to add a column for replication times to bed files
 def AddTimeColumn(filename, file1, file2, file3, data, times, early_mut, middle_mut, late_mut):
@@ -602,8 +735,7 @@ def AddTimeColumn(filename, file1, file2, file3, data, times, early_mut, middle_
                 fc.write(d)
                 fc.write('\n')
             e = e + 1
-        #else:
-            #d = d + ' ' + 'NA'
+       
         
         fi.write(d)
         fi.write('\n')
@@ -625,6 +757,17 @@ AddTimeColumn("Rad26_UVB_allSNVs_sorted.bed", "early_mutations_rad26UVB.bed", "m
 AddTimeColumn("Rad30_UVB_allSNVs_sorted.bed", "early_mutations_rad30UVB.bed", "middle_mutations_rad30UVB.bed", "late_mutations_rad30UVB.bed",dataB30, timesB30, early_mut_B30, middle_mut_B30, late_mut_B30)
 AddTimeColumn("WT_UV_run1_allSNVs_sorted.bed", "early_mutations_r1.bed", "middle_mutations_r1.bed", "late_mutations_r1.bed",datar1, timesr1, early_mut_r1, middle_mut_r1, late_mut_r1 )
 AddTimeColumn("WT_UV_run2_allSNVs_sorted.bed", "early_mutations_r2.bed", "middle_mutations_r2.bed", "late_mutations_r2.bed",datar2, timesr2, early_mut_r2, middle_mut_r2, late_mut_r2 )
+#AddTimeColumn("clusters_WT_allSNVs_sorted.bed", "clusters_early_mutations.bed", "clusters_middle_mutations.bed", "clusters_late_mutations.bed",datac, timesc, early_mutc, middle_mutc, late_mutc)
+#AddTimeColumn("clusters_WT_UVB_allSNVs_sorted.bed", "clusters_early_mutations_UVB.bed", "clusters_middle_mutations_UVB.bed", "clusters_late_mutations_UVB.bed",datac1, timesc1, early_mutc1, middle_mutc1, late_mutc1)
+#AddTimeColumn("UV2_A1_dipy_bkgd.bed", "early_mutations_UV2_A1_dipy_bkgd.bed", "middle_mutations_UV2_A1_dipy_bkgd.bed", "late_mutations_UV2_A1_dipy_bkgd.bed",dataa1, timesa1, early_mut_a1, middle_mut_a1, late_mut_a1 )
+#AddTimeColumn("UV_0hr_A2_dipy_bkgd.bed", "early_mutations_UV_0hr_A2_dipy_bkgd.bed", "middle_mutations_UV_0hr_A2_dipy_bkgd.bed", "late_mutations_UV_0hr_A2_dipy_bkgd.bed",dataa2, timesa2, early_mut_a2, middle_mut_a2, late_mut_a2 )
+#AddTimeColumn("UV90J_A3_dipy_bkgd.bed", "early_mutations_UV90J_A3_dipy_bkgd.bed", "middle_mutations_UV90J_A3_dipy_bkgd.bed", "late_mutations_UV90J_A3_dipy_bkgd.bed",dataa3, timesa3, early_mut_a3, middle_mut_a3, late_mut_a3 )
+#AddTimeColumn("UV60J_A2_dipy_bkgd.bed", "early_mutations_UV60J_A2_dipy_bkgd.bed", "middle_mutations_UV60J_A2_dipy_bkgd.bed", "late_mutations_UV60J_A2_dipy_bkgd.bed",dataj60, timesj60, early_mut_j60, middle_mut_j60, late_mut_j60 )
+#AddTimeColumn("2hr_UV2_WT_A3_1bp_dipy_bk.bed", "early_mutations_2hr_UV2_WT_A3_1bp_dipy_bk.bed", "middle_mutations_2hr_UV2_WT_A3_1bp_dipy_bk.bed", "late_mutations_2hr_UV2_WT_A3_1bp_dipy_bk.bed",datah2, timesh2, early_mut_h2, middle_mut_h2, late_mut_h2 )
+#AddTimeColumn("rad16_0hr_A4_rep2_dipy_bkgd.bed", "early_mutations_rad16_0hr_A4_rep2_dipy_bkgd.bed", "middle_mutations_rad16_0hr_A4_rep2_dipy_bkgd.bed", "late_mutations_rad16_0hr_A4_rep2_dipy_bkgd.bed",dataa4, timesa4, early_mut_a4, middle_mut_a4, late_mut_a4)
+#AddTimeColumn("rad16_2hr_rep2_A5_1bp_dipy_bk.bed", "early_mutations_rad16_2hr_A5_rep2_1bp_dipy_bk.bed", "middle_mutations_rad16_2hr_A5_rep2_1bp_dipy_bk.bed", "late_mutations_rad16_2hr_A5_rep2_1bp_dipy_bk.bed",dataa5, timesa5, early_mut_a5, middle_mut_a5, late_mut_a5 )
+#AddTimeColumn("rad26_0hr_rep2_dipy_bkgd.bed", "early_mutations_rad26_0hr_rep2_dipy_bkgd.bed", "middle_mutations_rad26_0hr_rep2_dipy_bkgd.bed", "late_mutations_rad26_0hr_rep2_dipy_bkgd.bed",dataa_r26, timesa_r26, early_mut_ar26, middle_mut_ar26, late_mut_ar26)
+#AddTimeColumn("rad26_2hr_rep2_dipy_bk.bed", "early_mutations_rad26_2hr_rep2_dipy_bk.bed", "middle_mutations_rad26_2hr_rep2_dipy_bk.bed", "late_mutations_rad26_2hr_rep2_dipy_bk.bed",dataa3_r26, timesa3_r26, early_mut_a3r26, middle_mut_a3r26, late_mut_a3r26 )
 
 #Calculates number of mutations for each codon
 def MutationRate(file1, trinucleotides, muts, file2):
@@ -653,18 +796,21 @@ def MutationRate(file1, trinucleotides, muts, file2):
     for key in mutationRates.keys():
         for t in range (0, len(trinucleotides)):
             if trinucleotides[t][1] == 'C' or trinucleotides[t][1] == 'T':
-                if trinucleotides[t] == key:
-                    mutationRates[key] = mutationRates[key] + 1
-                    base_percentages[key] = (mutationRates[key] / len(trinucleotides))
                 if trinucleotides[t] == key and t in muts[0].keys():
                     mutationRates_early[key] = mutationRates_early[key] + 1
                     base_percentages_early[key] = (mutationRates_early[key] / len(muts[0].keys()))
+                    mutationRates[key] = mutationRates[key] + 1
+                    base_percentages[key] = (mutationRates[key] / len(trinucleotides))
                 if trinucleotides[t] == key and t in muts[1].keys():
                     mutationRates_middle[key] = mutationRates_middle[key] + 1
                     base_percentages_middle[key] = (mutationRates_middle[key] / len(muts[1].keys()))
+                    mutationRates[key] = mutationRates[key] + 1
+                    base_percentages[key] = (mutationRates[key] / len(trinucleotides))
                 if trinucleotides[t] == key and t in muts[2].keys():
                     mutationRates_late[key] = mutationRates_late[key] + 1
                     base_percentages_late[key] = (mutationRates_late[key] / len(muts[2].keys()))
+                    mutationRates[key] = mutationRates[key] + 1
+                    base_percentages[key] = (mutationRates[key] / len(trinucleotides))
             if trinucleotides[t][1] == 'A' or trinucleotides[t][1] == 'G':
                 if GetReverseComplement(trinucleotides[t]) == key:
                     mutationRates[key] = mutationRates[key] + 1
@@ -672,13 +818,18 @@ def MutationRate(file1, trinucleotides, muts, file2):
                     if t in muts[0].keys():
                         mutationRates_early[key] = mutationRates_early[key] + 1
                         base_percentages_early[key] = (mutationRates_early[key] / len(muts[0].keys()))
+                        mutationRates[key] = mutationRates[key] + 1
+                        base_percentages[key] = (mutationRates[key] / len(trinucleotides))
                     if t in muts[1].keys():
                         mutationRates_middle[key] = mutationRates_middle[key] + 1
                         base_percentages_middle[key] = (mutationRates_middle[key] / len(muts[1].keys()))
+                        mutationRates[key] = mutationRates[key] + 1
+                        base_percentages[key] = (mutationRates[key] / len(trinucleotides))
                     if t in muts[2].keys():
                         mutationRates_late[key] = mutationRates_late[key] + 1
                         base_percentages_late[key] = (mutationRates_late[key] / len(muts[2].keys()))
-             
+                        mutationRates[key] = mutationRates[key] + 1
+                        base_percentages[key] = (mutationRates[key] / len(trinucleotides))
     for key in mutationRates.keys():
         fm2.write(key + ": Number = " + str(mutationRates[key])+ ' Percentage =' + str(base_percentages[key] * 100) + "%")
         fm2.write('\n')
@@ -711,7 +862,7 @@ mutationRatesUVB = MutationRate('mutationrates.txt', trinucleotideB, muts_B, 'mu
 mutationRatesB16 = MutationRate('mutationrates.txt', trinucleotideB16, muts_B16, 'mutationrateUVB16_results')
 mutationRatesB26 = MutationRate('mutationrates.txt', trinucleotideB26, muts_B26, 'mutationrateUVB26_results')
 mutationRatesB30 = MutationRate('mutationrates.txt', trinucleotideB30, muts_B30, 'mutationrateUVB30_results')
-
+mutationRatesc = MutationRate('mutationrates.txt', trinucleotidec, mutsc, 'mutationrate16_complex_sub_results')
 
 rep_times = []
 rep_times.append(early_1)
@@ -848,13 +999,14 @@ middle_TrinucCounts = {}
 late_TrinucCounts = {}
 
 dicts = [early_TrinucCounts, middle_TrinucCounts, late_TrinucCounts]
-
-#Counts numbers of trinucleotides in early, middle, and late replicating regions
+di_dict = {0:{'CC':0, 'CT':0, 'TC':0, 'TT':0}, 1:{'CC':0, 'CT':0, 'TC':0, 'TT':0}, 2:{'CC':0, 'CT':0, 'TC':0, 'TT':0}}
+#Counts numbers of trinucleotides in early, middle, and late replicating regions (only regions included in the timing map)
 #based on input from yeast genome assembly R64
-def TrinucleotideContext(file, name, start, scores, early, middle, dicts, num):
+def TrinucleotideContext(file, name, start, scores, early, middle, dicts, num, counts):
     early_TrinucCounts = dicts[0]
     middle_TrinucCounts = dicts[1]
     late_TrinucCounts = dicts[2]
+    
     
     
     chr_scores = []
@@ -862,141 +1014,125 @@ def TrinucleotideContext(file, name, start, scores, early, middle, dicts, num):
     sequence = ft.read()
     sequence = str(sequence.strip().upper())
     sequence = ''.join(sequence.split('\n'))
-    for a in range(0, len(scores)):
-        if chr[a] == name:
-            chr_scores.append(scores[a])
-    if chr_scores[0] <= early:
-        for x in range(0, 250):
-            if num == 3:
-                if sequence[x:x+num][1] == 'A' or sequence[x:x+num][1] == 'G':
-                    seq1 = GetReverseComplement(sequence[x:x+num])
-                else:
-                    seq1 = sequence[x:x+num]
-            else:
-                seq1 = sequence[x:x+num]
-                
-            if seq1 not in early_TrinucCounts.keys():
-                early_TrinucCounts[seq1] = 1
-        
-            else:
-                early_TrinucCounts[seq1] = early_TrinucCounts[seq1] + 1
-    elif chr_scores[0] <= middle:
-        for y in range(0, 250):
-            if num == 3:
-                if sequence[y:y+num][1] == 'A' or sequence[y:y+num][1] == 'G':
-                    seq2 = GetReverseComplement(sequence[y:y+num])
-                else:
-                    seq2 = sequence[y:y+num]
-            else:
-                seq2 = sequence[y:y+num]
-            if seq2 not in middle_TrinucCounts.keys():
-                middle_TrinucCounts[seq2] = 1
-            else:
-                middle_TrinucCounts[seq2] = middle_TrinucCounts[seq2] + 1
-    else:
-        for z in range(0, 250):
-            print(z)
-            if num == 3:
-                if sequence[z:z+num][1] == 'A' or sequence[z:z+num][1] == 'G':
-                    seq3 = GetReverseComplement(sequence[z:z+num])
-                else:
-                    seq3 = sequence[z:z+num]
-            else:
-                seq3 = sequence[z:z+num]
-
-            if seq3 not in late_TrinucCounts.keys():
-                late_TrinucCounts[seq3] = 1
-            else:
-                late_TrinucCounts[seq3] = late_TrinucCounts[seq3] + 1
+    di_counts = counts
+       
             
     for i in range(1, len(scores)):
         if chr[i] == name:
             if scores[i] <= early:
                 for j in range(int(start[i - 1]), int(start[i ])):
-                    print(j)
                     if num == 3:
                         if sequence[j:j+num][1] == 'A' or sequence[j:j+num][1] == 'G':
-                            seq4 = GetReverseComplement(sequence[j:j+num])
+                            seq1 = GetReverseComplement(sequence[j:j+num])
                         else:
-                            seq4 = sequence[j:j+num]
+                            seq1 = sequence[j:j+num]
                     else:
-                        seq4 = sequence[j:j+num]
-                    if seq4 not in early_TrinucCounts.keys():
-                        early_TrinucCounts[seq4] = 1
+                        seq1 = sequence[j:j+num]
+                    if seq1 not in early_TrinucCounts.keys():
+                        early_TrinucCounts[seq1] = 1
                     else:
-                        early_TrinucCounts[seq4] = early_TrinucCounts[seq4] + 1
+                        early_TrinucCounts[seq1] = early_TrinucCounts[seq1] + 1
 
-    
+                    if sequence[j:j+2] == 'CC' or sequence[j:j+2] == 'GG':
+                        di_counts[0]['CC'] = di_counts[0]['CC'] + 1
+                    if sequence[j:j+2] == 'CT' or sequence[j:j+2] == 'AG':
+                        di_counts[0]['CT'] = di_counts[0]['CT'] + 1
+                    if sequence[j:j+2] == 'TC' or sequence[j:j+2] == 'GA':
+                        di_counts[0]['TC'] = di_counts[0]['TC'] + 1
+                    if sequence[j:j+2] == 'TT' or sequence[j:j+2] == 'AA':
+                        di_counts[0]['TT'] = di_counts[0]['TT'] + 1
+                    
+                
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GG':
+                    di_counts[0]['CC'] = di_counts[0]['CC'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AG':
+                    di_counts[0]['CT'] = di_counts[0]['CT'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GA':
+                    di_counts[0]['TC'] = di_counts[0]['TC'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AA':
+                    di_counts[0]['TT'] = di_counts[0]['TT'] + 1
             elif scores[i] > early and scores[i] <= middle:
                 for L in range(int(start[i - 1]), int(start[i ])):
                     print(L)
                     if num == 3:
                         if sequence[L:L+num][1] == 'A' or sequence[L:L+num][1] == 'G':
-                            seq5 = GetReverseComplement(sequence[L:L+num])
+                            seq2 = GetReverseComplement(sequence[L:L+num])
                         else:
-                            seq5 = sequence[L:L+num]
+                            seq2 = sequence[L:L+num]
                     else:
-                        seq5 = sequence[L:L+num]
-                    if seq5 not in middle_TrinucCounts.keys():
-                        middle_TrinucCounts[seq5] = 1
+                        seq2 = sequence[L:L+num]
+                    if seq2 not in middle_TrinucCounts.keys():
+                        middle_TrinucCounts[seq2] = 1
                     else:
-                        middle_TrinucCounts[seq5] = middle_TrinucCounts[seq5] + 1
-    
-            elif scores[i] > middle:
+                        middle_TrinucCounts[seq2] = middle_TrinucCounts[seq2] + 1
+                    if sequence[L:L+2] == 'CC' or sequence[L:L+2] == 'GG':
+                        di_counts[1]['CC'] = di_counts[1]['CC'] + 1
+                    if sequence[L:L+2] == 'CT' or sequence[L:L+2] == 'AG':
+                        di_counts[1]['CT'] = di_counts[1]['CT'] + 1
+                    if sequence[L:L+2] == 'TC' or sequence[L:L+2] == 'GA':
+                        di_counts[1]['TC'] = di_counts[1]['TC'] + 1
+                    if sequence[L:L+2] == 'TT' or sequence[L:L+2] == 'AA':
+                        di_counts[1]['TT'] = di_counts[1]['TT'] + 1
+                    
+                
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GG':
+                    di_counts[1]['CC'] = di_counts[1]['CC'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CT' or sequence[int(start[i ] - 1): int(start[i ]) + 1]== 'AG':
+                    di_counts[1]['CT'] = di_counts[1]['CT'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GA':
+                    di_counts[1]['TC'] = di_counts[1]['TC'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AA':
+                   di_counts[1]['TT'] = di_counts[1]['TT'] + 1
+            else:    
                 for n in range(int(start[i -1]), int(start[i])):
                     print(n)
                     if num == 3:
                         if sequence[n:n+num][1] == 'A' or sequence[n:n+num][1] == 'G':
-                            seq6 = GetReverseComplement(sequence[n:n+num])
+                            seq3 = GetReverseComplement(sequence[n:n+num])
                         else:
-                            seq6 = sequence[n:n+num]
+                            seq3 = sequence[n:n+num]
                     else:
-                        seq6 = sequence[n:n+num]
-                    if seq6 not in late_TrinucCounts.keys():
-                        late_TrinucCounts[seq6] = 1
+                        seq3 = sequence[n:n+num]
+                    if seq3 not in late_TrinucCounts.keys():
+                        late_TrinucCounts[seq3] = 1
                     else:
-                        late_TrinucCounts[seq6] = late_TrinucCounts[seq6] + 1
+                        late_TrinucCounts[seq3] = late_TrinucCounts[seq6] + 1
+                    if sequence[n:n+2] == 'CC' or sequence[n:n+2] == 'GG':
+                        di_counts[2]['CC'] = di_counts[2]['CC'] + 1
+                    if sequence[n:n+2] == 'CT' or sequence[n: n+2] == 'AG':
+                        di_counts[2]['CT'] = di_counts[2]['CT'] + 1
+                    if sequence[n:n+2] == 'TC' or sequence[n:n+2] == 'GA':
+                        di_counts[2]['TC'] = di_counts[2]['TC'] + 1
+                    if sequence[n:n+2] == 'TT' or sequence[n:n+2] == 'AA':
+                        di_counts[2]['TT'] = di_counts[2]['TT'] + 1
+                    
+                
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GG':
+                    di_counts[2]['CC'] = di_counts[2]['CC'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AG':
+                    di_counts[2]['CT'] = di_counts[2]['CT'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GA':
+                    di_counts[2]['TC'] = di_counts[2]['TC'] + 1
+                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AA':
+                    di_counts[2]['TT'] = di_counts[2]['TT'] + 1
     ft.close()
-    return [early_TrinucCounts, middle_TrinucCounts, late_TrinucCounts]
-dict1 = TrinucleotideContext('chr1.fa', 'chrI', start, scores, early_2, middle_2, dicts, 3)
-dict2 = TrinucleotideContext('chr2.txt', 'chrII', start, scores, early_2, middle_2, dict1, 3)
-dict3 = TrinucleotideContext('chr3.txt', 'chrIII', start, scores, early_2, middle_2, dict2, 3)
-dict4 = TrinucleotideContext('chr4.txt', 'chrIV', start, scores, early_2, middle_2, dict3, 3)
-dict5 = TrinucleotideContext('chr5.txt', 'chrV', start, scores, early_2, middle_2, dict4, 3)
-dict6 = TrinucleotideContext('chr6.txt', 'chrVI', start, scores, early_2, middle_2, dict5, 3)
-dict7 = TrinucleotideContext('chr7.txt', 'chrVII', start, scores, early_2, middle_2, dict6, 3)
-dict8 = TrinucleotideContext('chr8.txt', 'chrVIII', start, scores, early_2, middle_2, dict7, 3)
-dict9 = TrinucleotideContext('chr9.txt', 'chrIX', start, scores, early_2, middle_2, dict8, 3)
-dict10 = TrinucleotideContext('chr10.txt', 'chrX', start, scores, early_2, middle_2, dict9, 3)
-dict11 = TrinucleotideContext('chr11.txt', 'chrXI', start, scores, early_2, middle_2, dict10, 3)
-dict12 = TrinucleotideContext('chr12.txt', 'chrXII', start, scores, early_2, middle_2, dict11, 3)
-dict13 = TrinucleotideContext('chr13.txt', 'chrXIII', start, scores, early_2, middle_2, dict12, 3)
-dict14 = TrinucleotideContext('chr14.txt', 'chrXIV', start, scores, early_2, middle_2, dict13, 3)
-dict15 = TrinucleotideContext('chr15.txt', 'chrXV', start, scores, early_2, middle_2, dict14, 3)
-counts = TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, dict15, 3)
-
-early_Dinuc = {}
-middle_Dinuc = {}
-late_Dinuc = {}
-
-dicts2 = [early_Dinuc, middle_Dinuc, late_Dinuc]
-dict1b = TrinucleotideContext('chr1.txt', 'chrI', start, scores, early_2, middle_2, dicts2, 2)
-dict2b = TrinucleotideContext('chr2.txt', 'chrII', start, scores, early_2, middle_2, dict1b, 2)
-dict3b = TrinucleotideContext('chr3.txt', 'chrIII', start, scores, early_2, middle_2, dict2b, 2)
-dict4b = TrinucleotideContext('chr4.txt', 'chrIV', start, scores, early_2, middle_2, dict3b, 2)
-dict5b = TrinucleotideContext('chr5.txt', 'chrV', start, scores, early_2, middle_2, dict4b, 2)
-dict6b = TrinucleotideContext('chr6.txt', 'chrVI', start, scores, early_2, middle_2, dict5b, 2)
-dict7b = TrinucleotideContext('chr7.txt', 'chrVII', start, scores, early_2, middle_2, dict6b, 2)
-dict8b = TrinucleotideContext('chr8.txt', 'chrVIII', start, scores, early_2, middle_2, dict7b, 2)
-dict9b = TrinucleotideContext('chr9.txt', 'chrIX', start, scores, early_2, middle_2, dict8b, 2)
-dict10b = TrinucleotideContext('chr10.txt', 'chrX', start, scores, early_2, middle_2, dict9b, 2)
-dict11b = TrinucleotideContext('chr11.txt', 'chrXI', start, scores, early_2, middle_2, dict10b, 2)
-dict12b = TrinucleotideContext('chr12.txt', 'chrXII', start, scores, early_2, middle_2, dict11b, 2)
-dict13b = TrinucleotideContext('chr13.txt', 'chrXIII', start, scores, early_2, middle_2, dict12b, 2)
-dict14b = TrinucleotideContext('chr14.txt', 'chrXIV', start, scores, early_2, middle_2, dict13b, 2)
-dict15b = TrinucleotideContext('chr15.txt', 'chrXV', start, scores, early_2, middle_2, dict14b, 2)
-counts2 = TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, dict15b, 2)
-
+    return [early_TrinucCounts, middle_TrinucCounts, late_TrinucCounts], di_counts
+dict1 = TrinucleotideContext('chr1.txt', 'chrI', start, scores, early_2, middle_2, dicts, 3, di_dict)
+dict2 = TrinucleotideContext('chr2.txt', 'chrII', start, scores, early_2, middle_2, dict1[0], 3, dict1[1])
+dict3 = TrinucleotideContext('chr3.txt', 'chrIII', start, scores, early_2, middle_2, dict2[0], 3, dict2[1])
+dict4 = TrinucleotideContext('chr4.txt', 'chrIV', start, scores, early_2, middle_2, dict3[0], 3, dict3[1])
+dict5 = TrinucleotideContext('chr5.txt', 'chrV', start, scores, early_2, middle_2, dict4[0], 3, dict4[1])
+dict6 = TrinucleotideContext('chr6.txt', 'chrVI', start, scores, early_2, middle_2, dict5[0], 3, dict5[1])
+dict7 = TrinucleotideContext('chr7.txt', 'chrVII', start, scores, early_2, middle_2, dict6[0], 3, dict6[1])
+dict8 = TrinucleotideContext('chr8.txt', 'chrVIII', start, scores, early_2, middle_2, dict7[0], 3, dict7[1])
+dict9 = TrinucleotideContext('chr9.txt', 'chrIX', start, scores, early_2, middle_2, dict8[0], 3, dict8[1])
+dict10 = TrinucleotideContext('chr10.txt', 'chrX', start, scores, early_2, middle_2, dict9[0], 3, dict9[1])
+dict11 = TrinucleotideContext('chr11.txt', 'chrXI', start, scores, early_2, middle_2, dict10[0], 3, dict10[1])
+dict12 = TrinucleotideContext('chr12.txt', 'chrXII', start, scores, early_2, middle_2, dict11[0], 3, dict11[1])
+dict13 = TrinucleotideContext('chr13.txt', 'chrXIII', start, scores, early_2, middle_2, dict12[0], 3, dict12[1])
+dict14 = TrinucleotideContext('chr14.txt', 'chrXIV', start, scores, early_2, middle_2, dict13[0], 3, dict13[1])
+dict15 = TrinucleotideContext('chr15.txt', 'chrXV', start, scores, early_2, middle_2, dict14[0], 3, dict14[1])
+counts = TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, dict15[0], 3, dict15[1])
 
 
 early_Trinuc = {}
@@ -1005,16 +1141,11 @@ late_Trinuc = {}
 
 chr_dicts = [early_Trinuc, middle_Trinuc, late_Trinuc]
 
-chr1_counts =   TrinucleotideContext('chr1.txt', 'chrI', start, scores, early_2, middle_2, chr_dicts, 3)  
-                                                   
-def FindExpected(mutationRates, count, file):
+chr16_counts =   TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, chr_dicts, 3, di_dict)  
+
+def GetNewMutationRates(mutationRates, count):
     early_totals = count[0] 
-    middle_totals = count[1] 
     late_totals = count[2] 
-    expected_early = 0
-    expected_middle = 0
-    expected_late = 0
-    f = open(file, 'w+')
     for key in mutationRates.keys():
         
     #mutated over total for each codon
@@ -1024,6 +1155,27 @@ def FindExpected(mutationRates, count, file):
             mutationRates[key] = mutationRates[key]/(count[0][key] + count[1][key]) 
         else:
             mutationRates[key] = mutationRates[key]/(count[2][key] + count[1][key])
+    return mutationRates
+
+new_mutationRates = GetNewMutationRates(mutationRates, counts[0])
+new_mutationRates16 = GetNewMutationRates(mutationRates16, counts[0])
+new_mutationRates26 = GetNewMutationRates(mutationRates26, counts[0])
+new_mutationRates30 = GetNewMutationRates(mutationRates30, counts[0])
+new_mutationRatesUVB = GetNewMutationRates(mutationRatesUVB, counts[0])
+new_mutationRatesB16 = GetNewMutationRates(mutationRatesB16, counts[0])
+new_mutationRatesB26 = GetNewMutationRates(mutationRatesB26, counts[0])
+new_mutationRatesB30 = GetNewMutationRates(mutationRatesB30, counts[0])
+new_mutationRatesUVA = GetNewMutationRates(mutationRatesUVA, counts[0])
+new_mutationRatesOg =  GetNewMutationRates(mutationRatesOg, counts[0])
+def FindExpected(mutationRates, count, file):
+    early_totals = count[0] 
+    middle_totals = count[1] 
+    late_totals = count[2] 
+    expected_early = 0
+    expected_middle = 0
+    expected_late = 0
+    f = open(file, 'w+')
+    for key in mutationRates.keys():
         if key in early_totals.keys():    
             expected_early = expected_early + (early_totals[key] * mutationRates[key])
         if key in middle_totals.keys():
@@ -1065,25 +1217,27 @@ def FindExpected(mutationRates, count, file):
     print(expected_late)
     return[percentage_early, percentage_middle, percentage_late]
 
-FindExpected(mutationRates, counts, 'Rates.txt')
-FindExpected(mutationRates16, counts, 'Rates16.txt')
-FindExpected(mutationRatesr1, counts, 'Rates_r1.txt')
-FindExpected(mutationRatesr2, counts, 'Rates_r2.txt')
-FindExpected(mutationRates30, counts, 'Rates30.txt')
-FindExpected(mutationRates26, counts, 'Rates26.txt')
-FindExpected(mutationRatesOg, counts, 'RatesOg.txt')
-FindExpected(mutationRatesUVA, counts, 'RatesA.txt')
-FindExpected(mutationRatesUVB, counts, 'Rates_UVB.txt')
-FindExpected(mutationRatesB16, counts, 'Rates_UVB16.txt')
-FindExpected(mutationRatesB26, counts, 'Rates_UVB26.txt')
-FindExpected(mutationRatesB30,  counts, 'Rates_UVB30.txt')
+FindExpected(new_mutationRates, counts[0], 'Rates.txt')
+FindExpected(new_mutationRates16, counts[0], 'Rates16.txt')
+#FindExpected(mutationRatesr1, counts[0], 'Rates_r1.txt')
+#FindExpected(mutationRatesr2, counts[0], 'Rates_r2.txt')
+FindExpected(new_mutationRates30, counts[0], 'Rates30.txt')
+FindExpected(new_mutationRates26, counts[0], 'Rates26.txt')
+FindExpected(new_mutationRatesOg, counts[0], 'RatesOg.txt')
+FindExpected(new_mutationRatesUVA, counts[0], 'RatesA.txt')
+FindExpected(new_mutationRatesUVB, counts[0], 'Rates_UVB.txt')
+FindExpected(new_mutationRatesB16, counts[0], 'Rates_UVB16.txt')
+FindExpected(new_mutationRatesB26, counts[0], 'Rates_UVB26.txt')
+FindExpected(new_mutationRatesB30,  counts[0], 'Rates_UVB30.txt')
+#FindExpected(mutationRatesc,  counts[0], 'Rates16_complexsubs.txt')
 
-expected_percentages = FindExpected(mutationRates, chr1_counts, 'Rates_chr1.txt')
-expected_percentages16 = FindExpected(mutationRates16, chr1_counts, 'Rates16_chr1.txt')
-expected_percentagesUVB = FindExpected(mutationRatesUVB, chr1_counts, 'Rates_UVB_chr1.txt')
-expected_percentages26 = FindExpected(mutationRates26, chr1_counts, 'Rates26_chr1.txt')
-expected_percentagesB26 = FindExpected(mutationRatesB26, chr1_counts, 'Rates26_UVB_chr1.txt')
-expected_percentagesB16 = FindExpected(mutationRatesB16, chr1_counts, 'Rates_UVB16_chr1.txt')
+
+expected_percentages = FindExpected(new_mutationRates, chr16_counts[0], 'Rates_chr16.txt')
+expected_percentages16 = FindExpected(new_mutationRates16, chr16_counts[0], 'Rates16_chr16.txt')
+expected_percentagesUVB = FindExpected(new_mutationRatesUVB, chr16_counts[0], 'Rates_UVB_chr16.txt')
+expected_percentages26 = FindExpected(new_mutationRates26, chr16_counts[0], 'Rates26_chr16.txt')
+expected_percentagesB26 = FindExpected(new_mutationRatesB26, chr16_counts[0], 'Rates26_UVB_chr16.txt')
+expected_percentagesB16 = FindExpected(new_mutationRatesB16, chr16_counts[0], 'Rates_UVB16_chr16.txt')
 
 def MutationNumbers(file,file2,chromosome, expected_percentages, chr_name, muts):
     f1 = open(file)
@@ -1092,7 +1246,7 @@ def MutationNumbers(file,file2,chromosome, expected_percentages, chr_name, muts)
     sequence1 = ''.join(sequence1.split('\n'))
     count1 = 0
     for c in range(0, len(chromosome)):
-        if chromosome[c] == chr_name:
+        if chromosome[c] == chr_name and (c in muts[0].keys() or c in muts[1].keys() or c in muts[2].keys()):
             count1 = count1 + 1
     density1 = count1/len(sequence1)
 
@@ -1110,22 +1264,22 @@ def MutationNumbers(file,file2,chromosome, expected_percentages, chr_name, muts)
     f2.write('\n')
     f2.write('Total: ' + str(len(muts[0]) + len(muts[1]) + len(muts[2])))
     f2.write('\n')
-    f2.write('Expected Early: ' + str(int(expected_early_1)))
+    f2.write('Expected Early: ' + str(expected_early_1))
     f2.write('\n')
-    f2.write('Expected Middle: ' + str(int(expected_middle_1)))
+    f2.write('Expected Middle: ' + str(expected_middle_1))
     f2.write('\n')
     f2.write('Expected Late Percentage: ' + str(expected_percentages[2]))
     f2.write('\n')
-    f2.write('Expected Late: ' + str(int(expected_late_1)))
+    f2.write('Expected Late: ' + str(expected_late_1))
     f2.write('\n')
     f2.write('Mutation Density: ' + str(density1))
     f1.close()
     f2.close()
     
     
-MutationNumbers('chr1.txt', 'chr1_value.txt', chromosome, expected_percentages,'chrI', muts)
-MutationNumbers('chr1.txt', 'chr1_value_rad16.txt', chromosome16, expected_percentages16,'chrI', muts_16)
-MutationNumbers('chr1.txt', 'chr1_value_UVB', chromosomeB, expected_percentagesUVB,'chrI', muts_B)
-MutationNumbers('chr1.txt', 'chr1_value_UVBrad16', chromosomeB16, expected_percentagesB16,'chrI', muts_B16)
-MutationNumbers('chr1.txt', 'chr1_value_rad26', chromosome26, expected_percentages26,'chrI', muts_26)
-MutationNumbers('chr1.txt', 'chr1_value_UVBrad26', chromosomeB26, expected_percentagesB26,'chrI', muts_B26)
+MutationNumbers('chr11.txt', 'chr11_value', chromosome, expected_percentages,'chrXI', muts)
+MutationNumbers('chr11.txt', 'chr11_value_rad16', chromosome16, expected_percentages16,'chrXI', muts_16)
+MutationNumbers('chr11.txt', 'chr11_value_UVB', chromosomeB, expected_percentagesUVB,'chrXI', muts_B)
+MutationNumbers('chr11.txt', 'chr11_value_UVBrad16', chromosomeB16, expected_percentagesB16,'chrXI', muts_B16)
+MutationNumbers('chr11.txt', 'chr11_value_rad26', chromosome26, expected_percentages26,'chrXI', muts_26)
+MutationNumbers('chr11.txt', 'chr11_value_UVBrad26', chromosomeB26, expected_percentagesB26,'chrXI', muts_B26)
