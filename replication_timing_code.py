@@ -210,7 +210,7 @@ for v in range (0, len(lines2)):
     
 start = []
 for w in range (0, len(lines2)):
-    start.append(lines2[w][2])
+    start.append(float(lines2[w][2]))
 
 #scores need to be sorted in order to 
 #separate into early, late, and middle replication times
@@ -998,6 +998,18 @@ early_TrinucCounts = {}
 middle_TrinucCounts = {}
 late_TrinucCounts = {}
 
+def GetDipyrimidineCounts(di_counts, seq, value):
+    if seq == 'CC' or seq == 'GG':
+        di_counts[value]['CC'] = di_counts[value]['CC'] + 1
+    if seq == 'CT' or seq == 'AG':
+        di_counts[value]['CT'] = di_counts[value]['CT'] + 1
+    if seq == 'TC' or seq == 'GA':
+        di_counts[value]['TC'] = di_counts[value]['TC'] + 1
+    if seq == 'TT' or seq == 'AA':
+        di_counts[value]['TT'] = di_counts[value]['TT'] + 1
+    return di_counts
+
+
 dicts = [early_TrinucCounts, middle_TrinucCounts, late_TrinucCounts]
 di_dict = {0:{'CC':0, 'CT':0, 'TC':0, 'TT':0}, 1:{'CC':0, 'CT':0, 'TC':0, 'TT':0}, 2:{'CC':0, 'CT':0, 'TC':0, 'TT':0}}
 #Counts numbers of trinucleotides in early, middle, and late replicating regions (only regions included in the timing map)
@@ -1018,103 +1030,38 @@ def TrinucleotideContext(file, name, start, scores, early, middle, dicts, num, c
        
             
     for i in range(1, len(scores)):
-        if chr[i] == name:
-            if scores[i] <= early:
-                for j in range(int(start[i - 1]), int(start[i ])):
-                    if num == 3:
-                        if sequence[j:j+num][1] == 'A' or sequence[j:j+num][1] == 'G':
-                            seq1 = GetReverseComplement(sequence[j:j+num])
-                        else:
-                            seq1 = sequence[j:j+num]
+        if chr[i] == name and chr[i - 1] == name:
+           
+                for q in range(int(start[i -1]), int(start[i])):
+                    if sequence[(q - 1):(q+num - 1)][1] == 'A' or sequence[(q-1):(q+num -1)][1] == 'G':
+                        seq1 =GetReverseComplement (sequence[(q-1):(q + num - 1)])
                     else:
-                        seq1 = sequence[j:j+num]
-                    if seq1 not in early_TrinucCounts.keys():
-                        early_TrinucCounts[seq1] = 1
-                    else:
-                        early_TrinucCounts[seq1] = early_TrinucCounts[seq1] + 1
+                        seq1 = sequence[(q-1):(q + num - 1)]
 
-                    if sequence[j:j+2] == 'CC' or sequence[j:j+2] == 'GG':
-                        di_counts[0]['CC'] = di_counts[0]['CC'] + 1
-                    if sequence[j:j+2] == 'CT' or sequence[j:j+2] == 'AG':
-                        di_counts[0]['CT'] = di_counts[0]['CT'] + 1
-                    if sequence[j:j+2] == 'TC' or sequence[j:j+2] == 'GA':
-                        di_counts[0]['TC'] = di_counts[0]['TC'] + 1
-                    if sequence[j:j+2] == 'TT' or sequence[j:j+2] == 'AA':
-                        di_counts[0]['TT'] = di_counts[0]['TT'] + 1
-                    
-                
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GG':
-                    di_counts[0]['CC'] = di_counts[0]['CC'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AG':
-                    di_counts[0]['CT'] = di_counts[0]['CT'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GA':
-                    di_counts[0]['TC'] = di_counts[0]['TC'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AA':
-                    di_counts[0]['TT'] = di_counts[0]['TT'] + 1
-            elif scores[i] > early and scores[i] <= middle:
-                for L in range(int(start[i - 1]), int(start[i ])):
-                    print(L)
-                    if num == 3:
-                        if sequence[L:L+num][1] == 'A' or sequence[L:L+num][1] == 'G':
-                            seq2 = GetReverseComplement(sequence[L:L+num])
+                    time = calculateTime(scores[i - 1], scores[i],q, start[i - 1], start[i])
+                    if time < early:
+                        if seq1 not in early_TrinucCounts.keys():
+                            early_TrinucCounts[seq1] = 1
                         else:
-                            seq2 = sequence[L:L+num]
-                    else:
-                        seq2 = sequence[L:L+num]
-                    if seq2 not in middle_TrinucCounts.keys():
-                        middle_TrinucCounts[seq2] = 1
-                    else:
-                        middle_TrinucCounts[seq2] = middle_TrinucCounts[seq2] + 1
-                    if sequence[L:L+2] == 'CC' or sequence[L:L+2] == 'GG':
-                        di_counts[1]['CC'] = di_counts[1]['CC'] + 1
-                    if sequence[L:L+2] == 'CT' or sequence[L:L+2] == 'AG':
-                        di_counts[1]['CT'] = di_counts[1]['CT'] + 1
-                    if sequence[L:L+2] == 'TC' or sequence[L:L+2] == 'GA':
-                        di_counts[1]['TC'] = di_counts[1]['TC'] + 1
-                    if sequence[L:L+2] == 'TT' or sequence[L:L+2] == 'AA':
-                        di_counts[1]['TT'] = di_counts[1]['TT'] + 1
-                    
-                
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GG':
-                    di_counts[1]['CC'] = di_counts[1]['CC'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CT' or sequence[int(start[i ] - 1): int(start[i ]) + 1]== 'AG':
-                    di_counts[1]['CT'] = di_counts[1]['CT'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GA':
-                    di_counts[1]['TC'] = di_counts[1]['TC'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AA':
-                   di_counts[1]['TT'] = di_counts[1]['TT'] + 1
-            else:    
-                for n in range(int(start[i -1]), int(start[i])):
-                    print(n)
-                    if num == 3:
-                        if sequence[n:n+num][1] == 'A' or sequence[n:n+num][1] == 'G':
-                            seq3 = GetReverseComplement(sequence[n:n+num])
+                            early_TrinucCounts[seq1] = early_TrinucCounts[seq1] + 1
+                        di_counts = GetDipyrimidineCounts(di_counts, sequence[q-1:q+1], 0)
+                    if time >= early and time < middle:
+                        if seq1 not in middle_TrinucCounts.keys():
+                            middle_TrinucCounts[seq1] = 1
                         else:
-                            seq3 = sequence[n:n+num]
-                    else:
-                        seq3 = sequence[n:n+num]
-                    if seq3 not in late_TrinucCounts.keys():
-                        late_TrinucCounts[seq3] = 1
-                    else:
-                        late_TrinucCounts[seq3] = late_TrinucCounts[seq6] + 1
-                    if sequence[n:n+2] == 'CC' or sequence[n:n+2] == 'GG':
-                        di_counts[2]['CC'] = di_counts[2]['CC'] + 1
-                    if sequence[n:n+2] == 'CT' or sequence[n: n+2] == 'AG':
-                        di_counts[2]['CT'] = di_counts[2]['CT'] + 1
-                    if sequence[n:n+2] == 'TC' or sequence[n:n+2] == 'GA':
-                        di_counts[2]['TC'] = di_counts[2]['TC'] + 1
-                    if sequence[n:n+2] == 'TT' or sequence[n:n+2] == 'AA':
-                        di_counts[2]['TT'] = di_counts[2]['TT'] + 1
+                            middle_TrinucCounts[seq1] = middle_TrinucCounts[seq1] + 1
+                        di_counts = GetDipyrimidineCounts(di_counts, sequence[q-1:q+1], 1)
+
+                    if time >= middle:
+                        if seq1 not in late_TrinucCounts.keys():
+                            late_TrinucCounts[seq1] = 1
+                        else:
+                            late_TrinucCounts[seq1] = late_TrinucCounts[seq1] + 1
+                        di_counts = GetDipyrimidineCounts(di_counts, sequence[q-1:q+1], 2)
                     
-                
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GG':
-                    di_counts[2]['CC'] = di_counts[2]['CC'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'CT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AG':
-                    di_counts[2]['CT'] = di_counts[2]['CT'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TC' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'GA':
-                    di_counts[2]['TC'] = di_counts[2]['TC'] + 1
-                if sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'TT' or sequence[int(start[i ] - 1): int(start[i ]) + 1] == 'AA':
-                    di_counts[2]['TT'] = di_counts[2]['TT'] + 1
+
+
+                                         
     ft.close()
     return [early_TrinucCounts, middle_TrinucCounts, late_TrinucCounts], di_counts
 dict1 = TrinucleotideContext('chr1.txt', 'chrI', start, scores, early_2, middle_2, dicts, 3, di_dict)
@@ -1141,20 +1088,24 @@ late_Trinuc = {}
 
 chr_dicts = [early_Trinuc, middle_Trinuc, late_Trinuc]
 
-chr16_counts =   TrinucleotideContext('chr16.txt', 'chrXVI', start, scores, early_2, middle_2, chr_dicts, 3, di_dict)  
+chr7_counts =   TrinucleotideContext('chr7.txt', 'chrVII', start, scores, early_2, middle_2, chr_dicts, 3, di_dict)  
 
 def GetNewMutationRates(mutationRates, count):
     early_totals = count[0] 
+    middle_totals = count[1]
     late_totals = count[2] 
+
     for key in mutationRates.keys():
         
     #mutated over total for each codon
-        if key in late_totals.keys() and key in early_totals.keys():
+        if key in late_totals.keys() and key in middle_totals.keys() and key in early_totals.keys():
             mutationRates[key] = mutationRates[key]/(count[0][key] + count[1][key] + count[2][key])
         elif key not in late_totals.keys():
             mutationRates[key] = mutationRates[key]/(count[0][key] + count[1][key]) 
-        else:
-            mutationRates[key] = mutationRates[key]/(count[2][key] + count[1][key])
+        elif key not in middle_totals.keys():
+            mutationRates[key] = mutationRates[key]/(count[0][key] + count[2][key])
+        elif key not in early_totals.keys():
+            mutationRates[key] = mutationRates[key]/(count[1][key] + count[2][key])
     return mutationRates
 
 new_mutationRates = GetNewMutationRates(mutationRates, counts[0])
@@ -1232,54 +1183,10 @@ FindExpected(new_mutationRatesB30,  counts[0], 'Rates_UVB30.txt')
 #FindExpected(mutationRatesc,  counts[0], 'Rates16_complexsubs.txt')
 
 
-expected_percentages = FindExpected(new_mutationRates, chr16_counts[0], 'Rates_chr16.txt')
-expected_percentages16 = FindExpected(new_mutationRates16, chr16_counts[0], 'Rates16_chr16.txt')
-expected_percentagesUVB = FindExpected(new_mutationRatesUVB, chr16_counts[0], 'Rates_UVB_chr16.txt')
-expected_percentages26 = FindExpected(new_mutationRates26, chr16_counts[0], 'Rates26_chr16.txt')
-expected_percentagesB26 = FindExpected(new_mutationRatesB26, chr16_counts[0], 'Rates26_UVB_chr16.txt')
-expected_percentagesB16 = FindExpected(new_mutationRatesB16, chr16_counts[0], 'Rates_UVB16_chr16.txt')
+expected_percentages = FindExpected(new_mutationRates, chr7_counts[0], 'Rates_chr7.txt')
+expected_percentages16 = FindExpected(new_mutationRates16, chr7_counts[0], 'Rates16_chr7.txt')
+expected_percentagesUVB = FindExpected(new_mutationRatesUVB, chr7_counts[0], 'Rates_UVB_chr7.txt')
+expected_percentages26 = FindExpected(new_mutationRates26, chr7_counts[0], 'Rates26_chr7.txt')
+expected_percentagesB26 = FindExpected(new_mutationRatesB26, chr7_counts[0], 'Rates26_UVB_chr7.txt')
+expected_percentagesB16 = FindExpected(new_mutationRatesB16, chr7_counts[0], 'Rates_UVB16_chr7.txt')
 
-def MutationNumbers(file,file2,chromosome, expected_percentages, chr_name, muts):
-    f1 = open(file)
-    sequence1 = f1.read()
-    sequence1 = str(sequence1.strip().upper())
-    sequence1 = ''.join(sequence1.split('\n'))
-    count1 = 0
-    for c in range(0, len(chromosome)):
-        if chromosome[c] == chr_name and (c in muts[0].keys() or c in muts[1].keys() or c in muts[2].keys()):
-            count1 = count1 + 1
-    density1 = count1/len(sequence1)
-
-    expected_early_1 = count1 * expected_percentages[0]
-    expected_middle_1 = count1 * expected_percentages[1]
-    expected_late_1 = count1 * expected_percentages[2]
-    f2 = open(file2, 'w+')
-    f2.write(chr_name)
-    f2.write('\n')
-    f2.write('Early: ' + str(len(muts[0])))
-    f2.write('\n')
-    f2.write('Middle: ' + str(len(muts[1])))
-    f2.write('\n')
-    f2.write('Late: ' + str(len(muts[2])))
-    f2.write('\n')
-    f2.write('Total: ' + str(len(muts[0]) + len(muts[1]) + len(muts[2])))
-    f2.write('\n')
-    f2.write('Expected Early: ' + str(expected_early_1))
-    f2.write('\n')
-    f2.write('Expected Middle: ' + str(expected_middle_1))
-    f2.write('\n')
-    f2.write('Expected Late Percentage: ' + str(expected_percentages[2]))
-    f2.write('\n')
-    f2.write('Expected Late: ' + str(expected_late_1))
-    f2.write('\n')
-    f2.write('Mutation Density: ' + str(density1))
-    f1.close()
-    f2.close()
-    
-    
-MutationNumbers('chr11.txt', 'chr11_value', chromosome, expected_percentages,'chrXI', muts)
-MutationNumbers('chr11.txt', 'chr11_value_rad16', chromosome16, expected_percentages16,'chrXI', muts_16)
-MutationNumbers('chr11.txt', 'chr11_value_UVB', chromosomeB, expected_percentagesUVB,'chrXI', muts_B)
-MutationNumbers('chr11.txt', 'chr11_value_UVBrad16', chromosomeB16, expected_percentagesB16,'chrXI', muts_B16)
-MutationNumbers('chr11.txt', 'chr11_value_rad26', chromosome26, expected_percentages26,'chrXI', muts_26)
-MutationNumbers('chr11.txt', 'chr11_value_UVBrad26', chromosomeB26, expected_percentagesB26,'chrXI', muts_B26)
