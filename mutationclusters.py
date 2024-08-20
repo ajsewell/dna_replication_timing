@@ -34,6 +34,7 @@ rad16_indels = 0
 rad26_indels = 0
 rad30_indels = 0
 genotype = []
+background = []
 chromosome = []
 position1 = []
 position2 = []
@@ -51,9 +52,11 @@ strand = []
 isolate_list = {}
 lines.pop(0)
 for line in lines:
-    if 'Mito' not in line[6]:
+   
+    if 'Mito' not in line[6] and 'ySR128' not in line[3]:
     
         genotype.append(line[4])
+    
         mutation_type.append(line[10])
         if 'WT' in line[4]:
             genotypes['WT'] = genotypes['WT'] + 1
@@ -246,10 +249,10 @@ for key in clusters:
         cluster_file.write(str(clusters[key][a][0]) + str(clusters[key][a][1]))
     cluster_file.write('\n')
 
-file = open('clusters_singlebase.bed', 'w+')
-file16 = open('clusters16_singlebase.bed', 'w+')
-file30 = open('clusters30_singlebase.bed', 'w+')
-file26 = open('clusters26_singlebase.bed', 'w+')
+file = open('clusters.bed', 'w+')
+file16 = open('clusters16.bed', 'w+')
+file30 = open('clusters30.bed', 'w+')
+file26 = open('clusters26.bed', 'w+')
 
 WT_totals = []
 rad16_totals = []
@@ -523,10 +526,10 @@ for key in clusters2:
         cluster_file2.write(str(clusters2[key][a][0]) + str(clusters2[key][a][1]))
     cluster_file2.write('\n')
 
-file2 = open('clusters_UVB_singlebase.bed', 'w+')
-file16_2 = open('clusters16_UVB_singlebase.bed', 'w+')
-file30_2 = open('clusters30_UVB_singlebase.bed', 'w+')
-file26_2 = open('clusters26_UVB_singlebase.bed', 'w+')
+file2 = open('clusters_UVB.bed', 'w+')
+file16_2 = open('clusters16_UVB.bed', 'w+')
+file30_2 = open('clusters30_UVB.bed', 'w+')
+file26_2 = open('clusters26_UVB.bed', 'w+')
 
 WT_totals2 = []
 rad16_totals2 = []
