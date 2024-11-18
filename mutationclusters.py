@@ -6,6 +6,7 @@ def GetReverseComplement(str):
     dict['C'] = 'G'
     dict['G'] = 'C'
     dict['T'] = 'A'
+    dict['-'] = '-'
     str2 = ''
     for i in range(0, len(str)):
         str2 = str2 + dict[str[i]]
@@ -148,9 +149,9 @@ for line in lines:
             right_consensus.append('NA')
             trinucleotide.append('NA')
         if (line[0], line[4]) not in isolate_list.keys():
-            isolate_list[(line[0],  line[4])] = [(line[9], 'chr' + str(line[6]), trinucleotide[len(trinucleotide) - 1], mutation[len(mutation) - 1], strand[len(strand) - 1], mutation_type[len(mutation_type) - 1])]
+            isolate_list[(line[0],  line[4])] = [(line[9], 'chr' + str(line[6]), trinucleotide[len(trinucleotide) - 1], mutation[len(mutation) - 1], strand[len(strand) - 1], mutation_type[len(mutation_type) - 1], line[0], line[10])]
         else:
-            isolate_list[(line[0],  line[4])].append((line[9], 'chr'+ str(line[6]),  trinucleotide[len(trinucleotide) - 1], mutation[len(mutation) - 1], strand[len(strand) - 1], mutation_type[len(mutation_type) - 1]))
+            isolate_list[(line[0],  line[4])].append((line[9], 'chr'+ str(line[6]),  trinucleotide[len(trinucleotide) - 1], mutation[len(mutation) - 1], strand[len(strand) - 1], mutation_type[len(mutation_type) - 1], line[0], line[10]))
 
 print(genotypes)
 print(WT_indels/genotypes['WT'])
@@ -160,54 +161,54 @@ print(rad30_indels/genotypes['rad30'])
 
 
 cluster_file = open('clusters.txt', 'w+')
-def FindClusters( isolate_list, strain, indel_count):
+
+
+def FindClusters( isolate_list, strain):
     lengths = {}
     clusters = {}
+    homopolymers = {}
     cluster_numbers = {}
-    indel_clusters = 0
     for key in isolate_list.keys():
         number = 0
         if strain in key[1]:
+            if isolate_list[key][0][1] == isolate_list[key] [1][1] and (int(isolate_list[key][1][0]) <= int((isolate_list[key][ 0][0])) + 10):
+                clusters[isolate_list[key][0]] = [isolate_list[key][0]]
+                clusters[isolate_list[key][1]] = [isolate_list[key][1]]
+            if isolate_list[key][len (isolate_list[key]) - 2][1] == isolate_list[key] [len (isolate_list[key]) - 1][1] and (int(isolate_list[key][len (isolate_list[key]) - 1][0]) <= int((isolate_list[key][ len (isolate_list[key]) - 2][0])) + 10):
+                if isolate_list[key][len(isolate_list[key]) - 1] not in clusters.keys():
+                    clusters[isolate_list[key][len(isolate_list[key]) - 1]] = [isolate_list[key][len(isolate_list[key]) - 1]]
+                if isolate_list[key][len(isolate_list[key]) - 2] not in clusters.keys():
+                    clusters[isolate_list[key][len(isolate_list[key]) - 2]] = [isolate_list[key][len(isolate_list[key]) - 2]]
             for j in range (0,len (isolate_list[key]) - 1):
-                flag = True
-                n = 1
-                while flag == True:
-                    if j + n <= len(isolate_list[key]) - 1:
-                        if int(isolate_list[key][j + n][0]) <= int((isolate_list[key][j + n - 1][0])) + 10:
-                            if isolate_list[key][j + n][1] == isolate_list[key][j + n - 1][1]:
-                                if isolate_list[key][j] not in clusters.keys():
-                                    if j == 0 or isolate_list[key][j - n] not in clusters.keys():
-                                        clusters[isolate_list[key][j]] = [isolate_list[key][j]]
-                                        number = number + 1
-                                        if isolate_list[key][j][5] == "DIP" or isolate_list[key][j][5] == "Complex DIP":
-                                            indel_clusters = indel_clusters + 1
-                                        if isolate_list[key][j][5] == "Deletion" or isolate_list[key][j][5] == "Insertion":
-                                            indel_clusters = indel_clusters + 1
+                #flag = True
+                #n = 1
+                #while flag == True:
+                #if j <= len(isolate_list[key]) - 1:
+                    if (isolate_list[key][j][1] == isolate_list[key][j - 1][1] and (int(isolate_list[key][j][0]) <= int((isolate_list[key][j - 1][0])) + 10)) or (isolate_list[key][j + 1][1] == isolate_list[key][j][1] and (int(isolate_list[key][j + 1][0]) <= int((isolate_list[key][j][0])) + 10)): #or ((isolate_list[key][j + n][6], int(isolate_list[key][j + n][0]), isolate_list[key][j + n][1]) in homopolymers.keys() and (int(isolate_list[key][j + n][0]) <= int((isolate_list[key][j + n - 1][0])) + 10 + homopolymers[key])) : 
+                            if isolate_list[key][j] not in clusters.keys():# and isolate_list[key][j][7] == "DIP":
+                                #if j == 0 or isolate_list[key][j - n] not in clusters.keys():
+                                clusters[isolate_list[key][j]] = [isolate_list[key][j]]
+                                    #number = number + 1
+            
+                                    #if isolate_list[key][j + n][7] == "DIP":
+                                    #clusters[isolate_list[key][j]].append(isolate_list[key][j + n])
+                                    
+                                      
+                                    #else:
+                                    #n = n + 1
+                                #else:
+                                    #flag = False
+                            #else:#elif isolate_list[key][j + n] == "DIP":
+                               # clusters[isolate_list[key][j]].append(isolate_list[key][j + n])
+                                    #number = number + 1
+                                #n = n + 1
 
-                                        clusters[isolate_list[key][j]].append(isolate_list[key][j + n])
-                                        if isolate_list[key][j + n][5] == "DIP" or isolate_list[key][j][5] == "Complex DIP":
-                                                indel_clusters = indel_clusters + 1
-                                        if isolate_list[key][j][5] == "Deletion" or isolate_list[key][j][5] == "Insertion":
-                                            indel_clusters = indel_clusters + 1
-                                    else:
-                                        n = n + 1
-                                else:
-                                    clusters[isolate_list[key][j]].append(isolate_list[key][j + n])
-                                    number = number + 1
-                                    if isolate_list[key][j + n][5] == "DIP" or isolate_list[key][j][5] == "Complex DIP":
-                                        indel_clusters = indel_clusters + 1
-                                    if isolate_list[key][j][5] == "Deletion" or isolate_list[key][j][5] == "Insertion":
-                                        indel_clusters = indel_clusters + 1
-                                n = n + 1
-                            else:
-                                flag = False
-                        else:
-                            flag = False
-                    else:
-                        flag = False
-        cluster_numbers[key] = number
-    if indel_count > 0:
-        print(strain + ': ' + str(indel_clusters/indel_count))
+                           
+                        #else:
+                            #flag = False
+                    #else:
+                        #flag = False
+        #cluster_numbers[key] = number
     for key in clusters.keys():
         if len(clusters[key]) in lengths.keys():
             lengths[len(clusters[key])] = lengths[len(clusters[key])] + 1
@@ -219,7 +220,18 @@ def FindClusters( isolate_list, strain, indel_count):
         print(str(key) + ": " + str(lengths[key]))
     for key in cluster_numbers.keys():
         print(str(key) + ": " + str(cluster_numbers[key]/ len(isolate_list[key])))
+    new_clusters = {}
+    for key in clusters.keys():
+        for i in range(0, len(clusters[key])):
+            if (clusters[key][i][6], clusters[key][i][1], clusters[key][i][0]) not in new_clusters.keys():
+                new_clusters[(clusters[key][i][6], clusters[key][i][1], clusters[key][i][0])] = [(clusters[key][i][6], clusters[key][i][1], clusters[key][i][0])]
+
+
+
     return clusters
+
+
+
 
 def WriteChr(chr_name, clusters, file):
     
@@ -230,20 +242,20 @@ def WriteChr(chr_name, clusters, file):
     for key in clusters.keys():
         if key[1] == chr_name:
             for a in range(0, len(clusters[key])):
-                chromosome1.append(((int(clusters[key][a][0])), clusters[key][a][2], clusters[key][a][3], clusters[key][a][4]))
+                chromosome1.append(((int(clusters[key][a][0])), clusters[key][a][2], clusters[key][a][3], clusters[key][a][4], clusters[key][a][6]))
                 counts = counts + 1
 
     chromosome1.sort()
     for y in range(0, len(chromosome1)):
-        #if len(chromosome1[y][1]) == 3 and '-' not in chromosome1[y][1]:
+        if len(chromosome1[y][1]) == 3 and '-' not in chromosome1[y][1]:
             file.write(chr_name  + '\t'   + str(chromosome1[y][0] - 1) + '\t' + str(chromosome1[y][0]) + '\t' + chromosome1[y][1] + '\t'+ chromosome1[y][2] + '\t'+ chromosome1[y][3])
             file.write('\n')  
     return counts
 
-clusters = FindClusters( isolate_list, 'WT', WT_indels)
-clusters16 = FindClusters(isolate_list, 'rad16', rad16_indels )
-clusters26 = FindClusters(isolate_list, 'rad26', rad26_indels )
-clusters30 = FindClusters(isolate_list, 'rad30', rad30_indels )
+clusters = FindClusters( isolate_list, 'WT')
+clusters16 = FindClusters(isolate_list, 'rad16')
+clusters26 = FindClusters(isolate_list, 'rad26')
+clusters30 = FindClusters(isolate_list, 'rad30')
 for key in clusters:
     for a in  range(0, len(clusters[key])):
         cluster_file.write(str(clusters[key][a][0]) + str(clusters[key][a][1]))
@@ -305,6 +317,8 @@ GetCounts(clusters30, file30, count_file30, rad30_totals)
 
 cluster_file.close()
 
+indel_file = open('indel_list', 'w+')
+
 with open("UVB_New_Combined_All_v2_format_filter.txt") as f2:
     data2 = f2.read()
 lines2 = [s.strip().split() for s in data2.splitlines()]
@@ -332,7 +346,7 @@ rad16_chromosomes2 = {}
 rad26_chromosomes2 = {}
 rad30_chromosomes2 = {}
 for line in lines2:
-    if line[13] != 'Replacement' and line[13] != 'MNV' and line[14] != 'Replacement' and line[14] != 'MNV' and 'Mito' not in line[5] :
+    if line[13] != 'Replacement' and line[13] != 'MNV' and line[14] != 'Replacement' and line[14] != 'MNV' and 'Mito' not in line[5] and 'Mito' not in line[4]:
         isolates2.append(line[0])
         genotype2.append(line[1])
         if line[2] != 'RP':
@@ -366,6 +380,8 @@ for line in lines2:
                 rad16_chromosomes2[chromosome2[len(chromosome2) - 1]] = 1
             if line[13] == "Deletion" or line[13] == "Insertion" or line[14] == "Deletion" or line[14] == "Insertion":
                 rad16_indels_2 = rad16_indels_2 + 1
+                indel_file.write(line[13])
+                indel_file.write('\n')
         if 'Rad26' in line[1]:
             if chromosome2[len(chromosome2) - 1] in rad26_chromosomes2.keys():
                 rad26_chromosomes2[chromosome2[len(chromosome2) - 1]] = rad26_chromosomes2[chromosome2[len(chromosome2) - 1]] + 1
@@ -510,22 +526,23 @@ for pos in range(0, len(position2_2)):
 
 for i in range (0, len(isolates2)):
     if (isolates2[i], genotype2[i]) not in isolate_list2.keys():
-        isolate_list2[(isolates2[i], genotype2[i])] = [(position2_2[i], chromosome2[i], trinucleotide2[i], mutation2[i], strand2[i], mutation_type_2[i])]
+        isolate_list2[(isolates2[i], genotype2[i])] = [(position2_2[i], chromosome2[i], trinucleotide2[i], mutation2[i], strand2[i], mutation_type_2[i], isolates2[i])]
     else:
-        isolate_list2[(isolates2[i], genotype2[i])].append((position2_2[i], chromosome2[i], trinucleotide2[i], mutation2[i], strand2[i], mutation_type_2[i]))
+        isolate_list2[(isolates2[i], genotype2[i])].append((position2_2[i], chromosome2[i], trinucleotide2[i], mutation2[i], strand2[i], isolates2[i] ,mutation_type_2[i], isolates2[i]))
 
 print(genotypes2)
 
 cluster_file2 = open('clusters_UVB_singlebase.txt', 'w+')
-clusters2 = FindClusters( isolate_list2, 'WT', WT_indels_2)
-clusters16_2 = FindClusters(isolate_list2, 'Rad16', rad16_indels_2 )
-clusters26_2 = FindClusters(isolate_list2, 'Rad26', rad26_indels_2 )
-clusters30_2 = FindClusters(isolate_list2, 'Rad30', rad30_indels_2 )
+clusters2 = FindClusters( isolate_list2, 'WT')
+clusters16_2 = FindClusters(isolate_list2, 'Rad16' )
+clusters26_2 = FindClusters(isolate_list2, 'Rad26' )
+clusters30_2 = FindClusters(isolate_list2, 'Rad30' )
 for key in clusters2:
     for a in  range(0, len(clusters2[key])):
         cluster_file2.write(str(clusters2[key][a][0]) + str(clusters2[key][a][1]))
     cluster_file2.write('\n')
 
+indel_file.close()
 file2 = open('clusters_UVB.bed', 'w+')
 file16_2 = open('clusters16_UVB.bed', 'w+')
 file30_2 = open('clusters30_UVB.bed', 'w+')
@@ -561,6 +578,5 @@ file2.close()
 file16_2.close()
 file30_2.close()
 file26_2.close()
-
 
 
